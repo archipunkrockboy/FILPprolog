@@ -57,5 +57,3 @@ son(X):- man(Y), parent(X, Y), write(Y),nl, fail.
 sister(X, Y):- woman(X), parent(Z, X), parent(Z, Y).
 %12.2 Вывести всех сестёр Х.
 sisters(X):-woman(Y), woman(Z), parent(Z, X), parent(Z, Y), write(Y), nl, fail.
-
-git('artur'):-!,fail.
