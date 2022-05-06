@@ -64,4 +64,9 @@ grand_son(X, Y):-parent(Y, Z), parent(Z, X).
 grand_sons(X):-parent(X, Y), man(Y), parent(Y, Z), write(Z), nl ,fail.
 
 %14 ßâëÿşòñÿ ëè X è Y âíó÷êîé è äåäóøêîé èëè äåäóøêîé è âíó÷êîé
+%óâèäèòü ğóññêèé êîììåíòàğèé ïæ
 grand_pa_and_da(X, Y):- parent(X, Z), parent(Z, Y); parent(Y, Z), parent(Z, X).
+
+%15 Ìàêñèìàëüíàÿ öèôğà ÷èñëà(ğåêóğñèÿ ââåğõ).
+max_cifra_up(0,0).
+max_cifra_up(X, M):- X1 is X div 10, max_cifra_up(X1, M1), M2 is X mod 10, (M1>M2,M is M1; M is M2),!.
