@@ -84,3 +84,8 @@ sum_cifr3_up(X, S):- X1 is X div 10, sum_cifr3_up(X1, S1), Dig is X mod 10, (0 i
 sum_cifr3_down(X, S):-sum_cifr3_down(X, 0, S).
 sum_cifr3_down(0, S, S):-!.
 sum_cifr3_down(X, CurS, S):- Dig is X mod 10, 0 is Dig mod 3, CurS1 is CurS + Dig, X1 is X div 10, sum_cifr3_down(X1, CurS1, S),!; X2 is X div 10, sum_cifr3_down(X2, CurS, S),!.
+
+%19 Число Фибонначи с номером N(рекурсия вверх).
+fib_up(1, 1):-!.
+fib_up(2, 1):-!.
+fib_up(N ,X):- N1 is N-1, N2 is N-2, fib_up(N1, X1), fib_up(N2, X2), X is X1+X2.

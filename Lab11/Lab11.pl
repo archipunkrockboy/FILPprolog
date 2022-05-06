@@ -89,3 +89,8 @@ sum_cifr3_down(X, CurS, S):- Dig is X mod 10, 0 is Dig mod 3, CurS1 is CurS + Di
 fib_up(1, 1):-!.
 fib_up(2, 1):-!.
 fib_up(N ,X):- N1 is N-1, N2 is N-2, fib_up(N1, X1), fib_up(N2, X2), X is X1+X2.
+
+%20 Число Фибонначи с номером N(рекурсия вниз).
+fib_down(N, X):-fib_down(1, 1, 2, N, X).
+fib_down(_, X, N, N, X):-!.
+fib_down(A, B, I, N, X):- C is A + B, I1 is I+1, fib_down(B, C, I1, N, X).
