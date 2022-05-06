@@ -1,4 +1,4 @@
-man(voeneg).
+ï»¿man(voeneg).
 man(ratibor).
 man(boguslav).
 man(velerad).
@@ -48,25 +48,17 @@ parent(duhovlad,zlatomir).
 parent(zhdana,zdislava).
 parent(zhdana,zlatomir).
 
-%11.1 ßâëÿåòñÿ ëè Õ ñûíîì Y.
+%11.1 Ğ¯Ğ²Ğ»ÑĞµÑ‚ÑÑ Ğ»Ğ¸ Ğ¥ ÑÑ‹Ğ½Ğ¾Ğ¼ Y.
 son(X,Y):- man(X), parent(Y, X).
-%11.2 Âûâåñòè ñûíà Õ
+%11.2 Ğ’Ñ‹Ğ²ĞµÑÑ‚Ğ¸ ÑÑ‹Ğ½Ğ° Ğ¥
 son(X):- man(Y), parent(X, Y), write(Y),nl, fail.
 
-%12.1 ßâëÿåòñÿ ëè Õ ñåñòğîé Y.
+%12.1 Ğ¯Ğ²Ğ»ÑĞµÑ‚ÑÑ Ğ»Ğ¸ Ğ¥ ÑĞµÑÑ‚Ñ€Ğ¾Ğ¹ Y.
 sister(X, Y):- woman(X), parent(Z, X), parent(Z, Y).
-%12.2 Âûâåñòè âñåõ ñåñò¸ğ Õ.
+%12.2 Ğ’Ñ‹Ğ²ĞµÑÑ‚Ğ¸ Ğ²ÑĞµÑ… ÑĞµÑÑ‚Ñ‘Ñ€ Ğ¥.
 sisters(X):-woman(Y), woman(Z), parent(Z, X), parent(Z, Y), write(Y), nl, fail.
 
-%13.1 ßâëÿåòñÿ ëè X âíóêîì Y?
+%13.1 Ğ¯Ğ²Ğ»ÑĞµÑ‚ÑÑ Ğ»Ğ¸ Ğ¥ Ğ²Ğ½ÑƒĞºĞ¾Ğ¼ Y.
 grand_son(X, Y):-parent(Y, Z), parent(Z, X).
-%13.2 Âûâåñòè âñåõ âíóêîâ X
+%13.2 Ğ’Ñ‹Ğ²ĞµÑÑ‚Ğ¸ Ğ²ÑĞµÑ… Ğ²Ğ½ÑƒĞºĞ¾Ğ² X
 grand_sons(X):-parent(X, Y), man(Y), parent(Y, Z), write(Z), nl ,fail.
-
-%14 ßâëÿşòñÿ ëè X è Y âíó÷êîé è äåäóøêîé èëè äåäóøêîé è âíó÷êîé
-%óâèäèòü ğóññêèé êîììåíòàğèé ïæ
-grand_pa_and_da(X, Y):- parent(X, Z), parent(Z, Y); parent(Y, Z), parent(Z, X).
-
-%15 Ìàêñèìàëüíàÿ öèôğà ÷èñëà(ğåêóğñèÿ ââåğõ).
-max_cifra_up(0,0).
-max_cifra_up(X, M):- X1 is X div 10, max_cifra_up(X1, M1), M2 is X mod 10, (M1>M2,M is M1; M is M2),!.
