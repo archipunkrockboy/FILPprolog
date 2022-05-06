@@ -1,4 +1,4 @@
-man(voeneg).
+п»їman(voeneg).
 man(ratibor).
 man(boguslav).
 man(velerad).
@@ -48,20 +48,17 @@ parent(duhovlad,zlatomir).
 parent(zhdana,zdislava).
 parent(zhdana,zlatomir).
 
-%11.1 Является ли Х сыном Y.
+%11.1 РЇРІР»СЏРµС‚СЃСЏ Р»Рё РҐ СЃС‹РЅРѕРј Y.
 son(X,Y):- man(X), parent(Y, X).
-%11.2 Вывести сына Х
+%11.2 Р’С‹РІРµСЃС‚Рё СЃС‹РЅР° РҐ
 son(X):- man(Y), parent(X, Y), write(Y),nl, fail.
 
-%12.1 Является ли Х сестрой Y.
+%12.1 РЇРІР»СЏРµС‚СЃСЏ Р»Рё РҐ СЃРµСЃС‚СЂРѕР№ Y.
 sister(X, Y):- woman(X), parent(Z, X), parent(Z, Y).
-%12.2 Вывести всех сестёр Х.
+%12.2 Р’С‹РІРµСЃС‚Рё РІСЃРµС… СЃРµСЃС‚С‘СЂ РҐ.
 sisters(X):-woman(Y), woman(Z), parent(Z, X), parent(Z, Y), write(Y), nl, fail.
 
-%13.1 Является ли X внуком Y?
+%13.1 РЇРІР»СЏРµС‚СЃСЏ Р»Рё РҐ РІРЅСѓРєРѕРј Y.
 grand_son(X, Y):-parent(Y, Z), parent(Z, X).
-%13.2 Вывести всех внуков X
+%13.2 Р’С‹РІРµСЃС‚Рё РІСЃРµС… РІРЅСѓРєРѕРІ X
 grand_sons(X):-parent(X, Y), man(Y), parent(Y, Z), write(Z), nl ,fail.
-
-%14 Являются ли X и Y внучкой и дедушкой или дедушкой и внучкой
-grand_pa_and_da(X, Y):- parent(X, Z), parent(Z, Y); parent(Y, Z), parent(Z, X).
