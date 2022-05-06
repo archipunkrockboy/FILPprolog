@@ -58,4 +58,7 @@ sister(X, Y):- woman(X), parent(Z, X), parent(Z, Y).
 %12.2 Вывести всех сестёр Х.
 sisters(X):-woman(Y), woman(Z), parent(Z, X), parent(Z, Y), write(Y), nl, fail.
 
-git('artur'):-!,fail.
+%13.1 Является ли X внуком Y?
+grand_son(X, Y):-parent(Y, Z), parent(Z, X).
+%13.2 Вывести всех внуков X
+grand_sons(X):-parent(X, Y), man(Y), parent(Y, Z), write(Z), nl ,fail.
