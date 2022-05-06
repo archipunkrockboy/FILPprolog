@@ -62,3 +62,6 @@ sisters(X):-woman(Y), woman(Z), parent(Z, X), parent(Z, Y), write(Y), nl, fail.
 grand_son(X, Y):-parent(Y, Z), parent(Z, X).
 %13.2 ¬ывести всех внуков X
 grand_sons(X):-parent(X, Y), man(Y), parent(Y, Z), write(Z), nl ,fail.
+
+%14 явл€ютс€ ли X и Y внучкой и дедушкой или дедушкой и внучкой
+grand_pa_and_da(X, Y):- parent(X, Z), parent(Z, Y); parent(Y, Z), parent(Z, X).
