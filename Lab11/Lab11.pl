@@ -75,3 +75,7 @@ max_cifra_down(X, M):- max_cifra_down(X, 0, M).
 max_cifra_down(0, M ,M):-!.
 max_cifra_down(X, Y, M):- Y1 is X mod 10, X1 is X div 10, Y1>Y, max_cifra_down(X1, Y1, M);
 X2 is X div 10, max_cifra_down(X2, Y, M).
+
+%17 Сумма цифр числа, делящихся на 3
+sum_cifr3_up(0, 0).
+sum_cifr3_up(X, S):- X1 is X div 10, sum_cifr3_up(X1, S1), Dig is X mod 10, (0 is Dig mod 3, S is S1 + Dig; S is S1), !.

@@ -62,3 +62,16 @@ sisters(X):-woman(Y), woman(Z), parent(Z, X), parent(Z, Y), write(Y), nl, fail.
 grand_son(X, Y):-parent(Y, Z), parent(Z, X).
 %13.2 Вывести всех внуков X
 grand_sons(X):-parent(X, Y), man(Y), parent(Y, Z), write(Z), nl ,fail.
+
+%14 Являются ли X и Y внучкой и дедушкой или дедушкой и внучкой
+grand_pa_and_da(X, Y):- parent(X, Z), parent(Z, Y); parent(Y, Z), parent(Z, X).
+
+%15 Максимальная цифра числа(рекурсия вверх).
+max_cifra_up(0,0).
+max_cifra_up(X, M):- X1 is X div 10, max_cifra_up(X1, M1), M2 is X mod 10, (M1>M2,M is M1; M is M2),!.
+
+%16 Максимальная цифра числа(рекурсия вниз)
+max_cifra_down(X, M):- max_cifra_down(X, 0, M).
+max_cifra_down(0, M ,M):-!.
+max_cifra_down(X, Y, M):- Y1 is X mod 10, X1 is X div 10, Y1>Y, max_cifra_down(X1, Y1, M);
+X2 is X div 10, max_cifra_down(X2, Y, M).
