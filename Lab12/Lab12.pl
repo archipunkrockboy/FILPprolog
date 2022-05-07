@@ -41,11 +41,11 @@ list_length([H|T], N):-list_length([H|T], 0, N).
 list_length([], N, N):-!.
 list_length([_|T], CurN, N):- CurN1 is CurN+1, list_length(T, CurN1, N).
 
-read_list1(0, []) :- !.
-read_list1(N, [X|T]) :- read(X), N1 is N - 1, read_list1(N1, T).
+write_list([]):-!.
+write_list([Head|Tail]):-write(Head), nl, write_list(Tail).
 
-write_list1([]) :- !.
-write_list1([X|T]) :- write(X), nl, write_list1(T).
+read_list(0, []):-!.
+read_list(N, [X|T]):- read(X), N1 is N-1, read_list(N1, T).
 
 %удалить элемент с указанным номером
 del_by_num(List, N, Result):-del_by_num(List, N, 0, Result).
@@ -60,3 +60,10 @@ get_elem_index([_|T], Index, CurIndex, Result):- CurIndex1 is CurIndex+1, get_el
 %Соединить два листа
 join([], List, List).
 join([H1|T1], List2, [H1|T2]) :- join(T1, List2, T2).
+
+shift_right(List, N, Result):-list_length(List, Count), shift_right(List, N, 0,Count, Result).
+shift_right(Result, N, N,_, Result):-!.
+shift_right(List, N, I, Count, Result):-I1 is I+1, Count1 is Count-1, get_elem_index(List, Count1, GetElem), del_by_num(List, Count1, DelList), shift_right([GetElem|DelList],N, I1, Count, Result).
+
+%15.7 Циклический сдвиг массива вправо на 2 позиции
+f157:- read(Count), read_list(Count, List), shift_right(List, 2, Result), write_list(Result).
