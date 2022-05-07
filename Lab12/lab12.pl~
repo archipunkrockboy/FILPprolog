@@ -117,3 +117,12 @@ propuski(_,Max, Max, Result, Result):-!.
 propuski(List, CurElem, Max, List1, Result):-CurElem1 is CurElem+1,(in_list(List, CurElem), propuski(List, CurElem1, Max, List1, Result), !;propuski(List, CurElem1, Max, [CurElem|List1], Result)).
 
 f1520:- read(Count), read_list(Count, List), propuski(List, Result), write_list(Result).
+
+%15.32Дан целочисленный массив. Найти количество его локальных мак-
+%симумов.
+count_local_max([H|T], Result):-count_local_max(T, H, 0, Result).
+count_local_max([], _, _, Result, Result):-!.
+count_local_max([H|T], A, Count, Result):-count_local_max(T, A, H, Count, Result).
+count_local_max([H|T], A, B, Count, Result):- (B>A, B>H, Count1 is Count+1, count_local_max(T, B, H, Count1, Result),!);count_local_max(T, B, H, Count, Result).
+
+f1532:- read(Count), read_list(Count, List), count_local_max(List, Result), write(Result).

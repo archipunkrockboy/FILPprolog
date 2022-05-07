@@ -126,3 +126,11 @@ count_local_max([H|T], A, Count, Result):-count_local_max(T, A, H, Count, Result
 count_local_max([H|T], A, B, Count, Result):- (B>A, B>H, Count1 is Count+1, count_local_max(T, B, H, Count1, Result),!);count_local_max(T, B, H, Count, Result).
 
 f1532:- read(Count), read_list(Count, List), count_local_max(List, Result), write(Result).
+
+closest_elem([H|T], Elem, Result):- MinDifference is abs(H-Elem), closest_elem(T, Elem, H, MinDifference, Result).
+closest_elem([], _, Result, _, Result):-!.
+closest_elem([H|T], Elem, CurElem, MinDifference ,Result):- Difference is abs(H-Elem),Difference<MinDifference, closest_elem(T, Elem, H, Difference, Result),!;closest_elem(T, Elem, CurElem, MinDifference, Result).
+
+%15.35 Дано вещественное число R и массив вещественных чисел. Найти
+%элемент массива, который наиболее близок к данному числу.
+f1535:- read(Count), read(Elem), read_list(Count, List), closest_elem(List, Elem, Result), write(Result).
