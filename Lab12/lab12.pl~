@@ -77,3 +77,23 @@ min_list_index([H|T], Min, MinIndex, CurIndex, Result):-CurIndex1 is CurIndex+1,
 % наименьших элементов массива.
 
 f158:- read(Count), read_list(Count, List), min_list_index(List, MinIndex1), del_by_num(List, MinIndex1, DelList), min_list_index(DelList, MinIndex2), write(MinIndex1),nl, (MinIndex2<MinIndex1, write(MinIndex2); MinIndex22 is MinIndex2 + 1, write(MinIndex22)).
+
+%15.18 Дан целочисленный массив. Необходимо найти элементы, располо-
+%женные перед первым минимальным.
+
+
+
+rev(List, Result):-rev(List, [], Result).
+rev([], Result, Result):-!.
+rev([H|T],List1, Result):-rev(T, [H|List1], Result).
+
+%Срез массива от N до M
+cut(List, N, M, Result):-M1 is M+1,cut(List, N, M1, 0, Result).
+cut(List, N, M, N, Result):-list_length(List, Length),M1 is M-N,cut(List, N, M1, M1, Length,Result),!.
+cut([_|T], N, M, CurIndex, Result):-CurIndex1 is CurIndex+1, cut(T, N, M, CurIndex1, Result).
+cut(Result, _, _, M, M, Result):-!.
+cut(List, N, M, DelIndex, Length, Result):-Length1 is Length-1, del_by_num(List, DelIndex, DelList), cut(DelList, N, M, DelIndex, Length1, Result),!.
+
+
+
+f1518:- read(Count), read_list(Count, List), min_list_index(List, MinIndex), I is MinIndex-1, cut(List, 0, I, Result), write_list(Result).
