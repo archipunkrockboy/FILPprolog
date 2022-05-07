@@ -37,3 +37,30 @@ count_on_ab([H|T], A, B, Count, Result):-H>=A, H=<B, Count1 is Count+1, count_on
 
 f138:- read(Count), read(A), read(B), read_list(Count, List), count_on_ab(List, A, B, Result), write(Result).
 
+%Дан массив чисел. Необходимо проверить, чередуются ли в нем це-
+%лые и вещественные числа.
+
+a:-A is 100.0 / 10.0, write(A).
+
+
+%1.56. Для введенного списка посчитать среднее арифметическое непростых
+%элементов, которые больше, чем среднее арифметическое простых.
+
+%проверка на простоту
+is_prime(1):-!, fail.
+is_prime(X):-is_prime(X, 2).
+is_prime(X, X):-!.
+is_prime(X, CurDel):-Ost is X mod CurDel, Ost is 0, !, fail;CurDel1 is CurDel + 1, is_prime(X, CurDel1).
+
+sum_count_prime(List, Sum, Count):-sum_count_prime(List, 0, 0, Sum, Count).
+sum_count_prime([], Sum, Count, Sum, Count):-!.
+sum_count_prime([H|T], CurSum, CurCount, Sum, Count):- is_prime(H), CurSum1 is CurSum+H, CurCount1 is CurCount+1, sum_count_prime(T, CurSum1, CurCount1, Sum, Count),!;sum_count_prime(T, CurSum, CurCount, Sum, Count).
+
+
+sum_count_nprime(List, Sum, Count):-sum_count_prime(List, SumPrime, CountPrime),CountPrime\=0, AverPrime is SumPrime/CountPrime, sum_count_nprime(List, 0, 0, AverPrime, Sum, Count),!;sum_count_nprime(List, 0, 0, 0, Sum, Count).
+sum_count_nprime([], ResultSum, ResultCount, _, ResultSum, ResultCount):-!.
+sum_count_nprime([H|T], CurSum, CurCount, AverPrime, Sum, Count):-H>AverPrime, not(is_prime(H)), CurSum1 is CurSum+H, CurCount1 is CurCount+1, sum_count_nprime(T, CurSum1, CurCount1, AverPrime, Sum, Count),!;sum_count_nprime(T, CurSum, CurCount, AverPrime, Sum, Count).
+
+f156:-read(Count), read_list(Count, List), sum_count_nprime(List, Sum, Count1), Count1\=0, Average is Sum/Count1, write(Average),!; write(0).
+
+
