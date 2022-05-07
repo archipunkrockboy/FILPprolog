@@ -1,4 +1,4 @@
-%11 Количество чисел, взаимнопростых с заданным.
+п»ї%11 РљРѕР»РёС‡РµСЃС‚РІРѕ С‡РёСЃРµР», РІР·Р°РёРјРЅРѕРїСЂРѕСЃС‚С‹С… СЃ Р·Р°РґР°РЅРЅС‹Рј.
 nod(A, 0, A) :- !.
 nod(A, B, X) :- C is A mod B, nod(B, C, X).
 
@@ -11,3 +11,7 @@ count_vzaim_pr_up(X, CurDel, Count):-
    (    NOD is 1,
     Count is Count1+1, !;
     Count is Count1).
+
+count_vzaim_pr_down(X, Count):-count_vzaim_pr_down(X, 1, X, Count).
+count_vzaim_pr_down(_, Count, 1, Count):-!.
+count_vzaim_pr_down(X, C, CurDel, Count):-CurDel1 is CurDel-1, nod(X, CurDel, NOD), (NOD is 1, C1 is C+1, count_vzaim_pr_down(X, C1, CurDel1, Count),!;count_vzaim_pr_down(X, C, CurDel1, Count)).
