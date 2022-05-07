@@ -33,5 +33,5 @@ f12(X, Result):-f12(X, X, 0, 0, Result).
 f12(_, 1, Result, _, Result):-!.
 f12(X, CurDel, MaxDel, MaxCount, Result):-
     CurDel1 is CurDel-1, Ost is X mod CurDel,
-    (Ost is 0, f(X, CurDel, Count), Count>MaxCount, f12(X, CurDel1, CurDel, Count, Result);
+    (Ost is 0, f(X, CurDel, Count), Count>MaxCount, f12(X, CurDel1, CurDel, Count, Result),!;
     f12(X, CurDel1, MaxDel, MaxCount, Result)).

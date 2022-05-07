@@ -35,3 +35,28 @@ f12(X, CurDel, MaxDel, MaxCount, Result):-
     CurDel1 is CurDel-1, Ost is X mod CurDel,
     (Ost is 0, f(X, CurDel, Count), Count>MaxCount, f12(X, CurDel1, CurDel, Count, Result),!;
     f12(X, CurDel1, MaxDel, MaxCount, Result)).
+
+%14 Длина списка
+list_length([H|T], N):-list_length([H|T], 0, N).
+list_length([], N, N):-!.
+list_length([_|T], CurN, N):- CurN1 is CurN+1, list_length(T, CurN1, N).
+
+read_list1(0, []) :- !.
+read_list1(N, [X|T]) :- read(X), N1 is N - 1, read_list1(N1, T).
+
+write_list1([]) :- !.
+write_list1([X|T]) :- write(X), nl, write_list1(T).
+
+%удалить элемент с указанным номером
+del_by_num(List, N, Result):-del_by_num(List, N, 0, Result).
+del_by_num([_|T], N, N, T):-!.
+del_by_num([H|T], N, I, [H|NewT]):- I1 is I+1, del_by_num(T, N, I1, NewT).
+
+%Получить значение по индексу
+get_elem_index([H|T], Index, Result):- get_elem_index([H|T], Index, 0, Result).
+get_elem_index([H|_], Index, Index, H):-!.
+get_elem_index([_|T], Index, CurIndex, Result):- CurIndex1 is CurIndex+1, get_elem_index(T, Index, CurIndex1, Result).
+
+%Соединить два листа
+join([], List, List).
+join([H1|T1], List2, [H1|T2]) :- join(T1, List2, T2).
