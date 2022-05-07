@@ -42,7 +42,7 @@ list_length([], N, N):-!.
 list_length([_|T], CurN, N):- CurN1 is CurN+1, list_length(T, CurN1, N).
 
 write_list([]):-!.
-write_list([Head|Tail]):-write(Head), nl, write_list(Tail).
+write_list([Head|Tail]):-write(Head), write(" "), write_list(Tail).
 
 read_list(0, []):-!.
 read_list(N, [X|T]):- read(X), N1 is N-1, read_list(N1, T).
@@ -67,3 +67,13 @@ shift_right(List, N, I, Count, Result):-I1 is I+1, Count1 is Count-1, get_elem_i
 
 %15.7 Циклический сдвиг массива вправо на 2 позиции
 f157:- read(Count), read_list(Count, List), shift_right(List, 2, Result), write_list(Result).
+
+%поиск индекса первого минимального элемента
+min_list_index([H|T], Result):-min_list_index([H|T], H, 0, 0, Result).
+min_list_index([], _,Result, _,Result):-!.
+min_list_index([H|T], Min, MinIndex, CurIndex, Result):-CurIndex1 is CurIndex+1, H < Min, min_list_index(T, H, CurIndex, CurIndex1, Result);CurIndex1 is CurIndex+1, min_list_index(T, Min, MinIndex, CurIndex1, Result).
+
+% 15.8 Дан целочисленный массив. Необходимо найти индексы двух
+% наименьших элементов массива.
+
+f158:- read(Count), read_list(Count, List), min_list_index(List, MinIndex1), del_by_num(List, MinIndex1, DelList), min_list_index(DelList, MinIndex2), write(MinIndex1),nl, (MinIndex2<MinIndex1, write(MinIndex2); MinIndex22 is MinIndex2 + 1, write(MinIndex22)).
