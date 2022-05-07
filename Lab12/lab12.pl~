@@ -97,3 +97,23 @@ cut(List, N, M, DelIndex, Length, Result):-Length1 is Length-1, del_by_num(List,
 
 
 f1518:- read(Count), read_list(Count, List), min_list_index(List, MinIndex), I is MinIndex-1, cut(List, 0, I, Result), write_list(Result).
+
+
+%15.20 Дан целочисленный массив. Необходимо найти все пропущенные
+%числа.
+my_min_list([H|T], Result):- my_min_list([H|T],H, Result).
+my_min_list([], Result, Result):-!.
+my_min_list([H|T], CurMax, Result):-H < CurMax,my_min_list(T, H, Result),!;my_min_list(T, CurMax, Result).
+
+my_max_list([H|T], Result):- my_max_list([H|T],H, Result).
+my_max_list([], Result, Result):-!.
+my_max_list([H|T], CurMax, Result):-H > CurMax, my_max_list(T, H, Result),!;my_max_list(T, CurMax, Result).
+
+in_list([El|_], El):-!.
+in_list([_|T], El):-in_list(T, El).
+
+propuski(List, Result):-my_max_list(List, Max), my_min_list(List, Min), propuski(List, Min, Max, [],Result).
+propuski(_,Max, Max, Result, Result):-!.
+propuski(List, CurElem, Max, List1, Result):-CurElem1 is CurElem+1,(in_list(List, CurElem), propuski(List, CurElem1, Max, List1, Result), !;propuski(List, CurElem1, Max, [CurElem|List1], Result)).
+
+f1520:- read(Count), read_list(Count, List), propuski(List, Result), write_list(Result).
