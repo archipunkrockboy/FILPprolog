@@ -42,7 +42,7 @@ list_length([], N, N):-!.
 list_length([_|T], CurN, N):- CurN1 is CurN+1, list_length(T, CurN1, N).
 
 write_list([]):-!.
-write_list([Head|Tail]):-write(Head), nl, write_list(Tail).
+write_list([Head|Tail]):-write(Head), write(" "), write_list(Tail).
 
 read_list(0, []):-!.
 read_list(N, [X|T]):- read(X), N1 is N-1, read_list(N1, T).
