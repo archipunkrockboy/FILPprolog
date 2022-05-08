@@ -73,7 +73,7 @@ inlist([],_):-fail.
 inlist([X|_],X).
 inlist([_|T],X):-inlist(T,X).
 
-task14:-Hair=[_, _, _],
+task14:-Hair=[_, _,_],
     inlist(Hair,[blond,_]),
     inlist(Hair,[black,_]),
     inlist(Hair,[red, _]),
@@ -84,4 +84,46 @@ task14:-Hair=[_, _, _],
     not(in_list(Hair,[black,chernov])),
     not(in_list(Hair,[red,ryzhov])),
     write(Hair).
+
+
+%Три подруги вышли в белом, зеленом и синем платьях и туф-
+% лях. Известно, что только у Ани цвета платья и туфлей совпадали. Ни
+% туфли,
+%ни платье Вали не были белыми. Наташа была в зеленых туфлях. Определить
+%цвета платья и туфель на каждой из подруг.
+task15:-Fashion=[_, _, _],
+    inlist(Fashion, [anya,_,_]),
+    inlist(Fashion, [valya,_,_]),
+    inlist(Fashion, [natasha,_,_]),
+    inlist(Fashion, [_, white,_]),
+    inlist(Fashion, [_, green, _]),
+    inlist(Fashion, [_, blue, _]),
+    inlist(Fashion, [_, _, white]),
+    inlist(Fashion, [_, _, green]),
+    inlist(Fashion, [_, _, blue]),
+    inlist(Fashion, [natasha,_,green]),
+    not(inlist(Fashion, [natasha,green,_])),
+    not(inlist(Fashion, [valya,white,white])),
+    write(Fashion),!.
+
+%На заводе работали три друга: слесарь, токарь и сварщик. Их
+% фамилии Борисов, Иванов и Семенов. У слесаря нет ни братьев, ни сестер.
+% Он
+% самый младший из друзей. Семенов, женатый на сестре Борисова, старше
+% токаря. Назвать фамилии слесаря, токаря и сварщика.
+
+%[должность, фамилия, возраст, семейное положение, братья/сёстры]
+task16:- Zavod=[_, _, _],
+    inlist(Zavod, [slesar, _, mladshiy, _, 0]),
+    inlist(Zavod, [tokar, _,sredniy, _, _]),
+    inlist(Zavod, [svarshik, _, _, _, _]),
+    inlist(Zavod, [_, borisov,_,_, 1]),
+    inlist(Zavod, [_, ivanov,_, _, _]),
+    inlist(Zavod, [_, semenov,starshiy,zhenat_na_sestre_borisova,_]),
+    inlist(Zavod, [slesar, Who1, _, _, _]),
+    inlist(Zavod, [tokar, Who2, _, _, _]),
+    inlist(Zavod, [svarshik, Who3, _, _, _]),
+    write(Zavod),nl,write('slesar = '),write(Who1),nl,write('tokar = '),write(Who2),nl,write('svarshick = '),write(Who3),!.
+
+
 
