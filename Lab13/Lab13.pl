@@ -162,5 +162,24 @@ task17:- Drinks = [_, _, _, _],
 %концерте. Павлов и писатель вместе позировали художнику. Писатель написал
 %биографическую повесть о Сахарове и собирается написать о Воронове. Воро-
 %нов никогда не слышал о Левицком. Кто чем занимается?
-task18:-write('�� ����������').
+task18:-Talents = [_, _, _, _],
+    inlist(Talents, [voronov, _, ne_slyshal_o_levitskom]),
+    inlist(Talents, [pavlov, _, _]),
+    inlist(Talents, [levitskiy, _, _]),
+    inlist(Talents, [saharov, _, _]),
+    inlist(Talents, [_, dancer, _]),
+    inlist(Talents, [_, painter, _]),
+    inlist(Talents, [_, singer, _]),
+    inlist(Talents, [_, writer, poziroval_hudozhniku]),
+    not(inlist(Talents, [pavlov, singer,_])),
+    not(inlist(Talents, [levitskiy, singer,_])),
+    not(inlist(Talents, [pavlov, painter,_])),
+    not(inlist(Talents, [saharov, writer,_])),
+    not(inlist(Talents, [voronov, writer,_])),
+    inlist(Talents, [voronov, Who1, _]),
+    inlist(Talents, [pavlov, Who2, _]),
+    inlist(Talents, [levitskiy, Who3, _]),
+    inlist(Talents, [saharov, Who4, _]),
+    write('voronov - '), write(Who1), nl, write('pavlov - '), write(Who2), nl, write('levitskiy - '), write(Who3), nl, write('saharov - '), write(Who4).
+
 
