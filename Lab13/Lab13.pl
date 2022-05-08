@@ -86,7 +86,7 @@ task14:-Hair=[_, _,_],
     write(Hair).
 
 
-%Три подруги вышли в белом, зеленом и синем платьях и туф-
+%15 Три подруги вышли в белом, зеленом и синем платьях и туф-
 % лях. Известно, что только у Ани цвета платья и туфлей совпадали. Ни
 % туфли,
 %ни платье Вали не были белыми. Наташа была в зеленых туфлях. Определить
@@ -106,7 +106,7 @@ task15:-Fashion=[_, _, _],
     not(inlist(Fashion, [valya,white,white])),
     write(Fashion),!.
 
-%На заводе работали три друга: слесарь, токарь и сварщик. Их
+%16 На заводе работали три друга: слесарь, токарь и сварщик. Их
 % фамилии Борисов, Иванов и Семенов. У слесаря нет ни братьев, ни сестер.
 % Он
 % самый младший из друзей. Семенов, женатый на сестре Борисова, старше
@@ -124,6 +124,48 @@ task16:- Zavod=[_, _, _],
     inlist(Zavod, [tokar, Who2, _, _, _]),
     inlist(Zavod, [svarshik, Who3, _, _, _]),
     write(Zavod),nl,write('slesar = '),write(Who1),nl,write('tokar = '),write(Who2),nl,write('svarshick = '),write(Who3),!.
+
+
+
+%17 В бутылке, стакане, кувшине и банке находятся молоко, ли-
+% монад, квас и вода. Известно, что вода и молоко не в бутылке, сосуд с лимона-
+% дом находится между кувшином и сосудом с квасом, в банке - не лимонад и
+% не вода. Стакан находится около банки и сосуда с молоком. Как
+% распределены эти жидкости по сосудам.
+
+%A слева от B
+left(_, _, [_]):-fail.
+left(A, B, [A|[B|_]]).
+left(A, B, [_|T]):-left(A, B, T).
+
+%А справа от В
+right(_, _, [_]):-fail.
+right(A, B, [B|[A|_]]).
+right(A, B, [_|T]):-right(A, B, T).
+
+%около
+before(A, B, List):-left(A, B, List).
+before(A, B, List):-right(A, B, List).
+
+%[жидкость, емкость]
+task17:- Drinks = [_, _, _, _],
+    inlist(Drinks,[water, _]),
+    inlist(Drinks,[milk, _]),
+    inlist(Drinks,[lemonade, _]),
+    inlist(Drinks,[kvas, _]),
+    inlist(Drinks,[_, bottle]),
+    inlist(Drinks,[_, kuvshin]),
+    inlist(Drinks,[_, banka]),
+    inlist(Drinks,[_, glass]),
+    not(inlist(Drinks,[water, bottle])),
+    not(inlist(Drinks,[milk, bottle])),
+    not(inlist(Drinks,[water, banka])),
+    not(inlist(Drinks,[lemonade, banka])),
+    left([_, kuvshin],[lemonade,_], Drinks),
+    right([kvas, _], [lemonade,_], Drinks),
+    before([_, banka], [_, glass], Drinks),
+    before([milk,_], [_, glass], Drinks),
+    write(Drinks).
 
 
 

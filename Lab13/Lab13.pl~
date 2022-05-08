@@ -126,15 +126,68 @@ task16:- Zavod=[_, _, _],
     write(Zavod),nl,write('slesar = '),write(Who1),nl,write('tokar = '),write(Who2),nl,write('svarshick = '),write(Who3),!.
 
 
-task17:- Workers = [_,_,_],
-%inlist(Workers,[slesar,borisov,kolvo_bratev,vozrast,rodstvennik]),
-inlist(Workers,[slesar,_,0,0,_]),
-inlist(Workers,[tokar,_,_,1,_]),
-inlist(Workers,[svarshick,_,_,_,_]),
-inlist(Workers,[_,semenov,_,2,borisov]),
-inlist(Workers,[_,ivanov,_,_,_]),
-inlist(Workers,[_,borisov,1,_,_]),
-inlist(Workers,[slesar,Who1,_,_,_]),
-inlist(Workers,[tokar,Who2,_,_,_]),
-inlist(Workers,[svarshick,Who3,_,_,_]),
-write('slesar = '),write(Who1),nl,write('tokar = '),write(Who2),nl,write('svarshick = '),write(Who3),!.
+
+%В бутылке, стакане, кувшине и банке находятся молоко, ли-
+% монад, квас и вода. Известно, что вода и молоко не в бутылке, сосуд с лимона-
+% дом находится между кувшином и сосудом с квасом, в банке - не лимонад и
+% не вода. Стакан находится около банки и сосуда с молоком. Как
+% распределены эти жидкости по сосудам.
+
+%A слева от B
+left(_, _, [_]):-fail.
+left(A, B, [A|[B|_]]).
+left(A, B, [_|T]):-left(A, B, T).
+
+%А справа от В
+right(_, _, [_]):-fail.
+right(A, B, [B|[A|_]]).
+right(A, B, [_|T]):-right(A, B, T).
+
+%около
+before(A, B, List):-left(A, B, List).
+before(A, B, List):-right(A, B, List).
+
+
+next(A,B,List):-right(A,B,List).
+next(A,B,List):-left(A,B,List).
+
+%[жидкость, емкость]
+task17:- Drinks = [_, _, _, _],
+    inlist(Drinks,[water, _]),
+    inlist(Drinks,[milk, _]),
+    inlist(Drinks,[lemonade, _]),
+    inlist(Drinks,[kvas, _]),
+    inlist(Drinks,[_, bottle]),
+    inlist(Drinks,[_, kuvshin]),
+    inlist(Drinks,[_, banka]),
+    inlist(Drinks,[_, glass]),
+    not(inlist(Drinks,[water, bottle])),
+    not(inlist(Drinks,[milk, bottle])),
+    not(inlist(Drinks,[water, banka])),
+    not(inlist(Drinks,[lemonade, banka])),
+    left([_, kuvshin],[lemonade,_], Drinks),
+    right([kvas, _], [lemonade,_], Drinks),
+    before([_, banka], [_, glass], Drinks),
+    before([milk,_], [_, glass], Drinks),
+    write(Drinks).
+
+
+task18:- Drinks=[_,_,_,_],
+inlist(Drinks,[bottle,_]),
+inlist(Drinks,[glass,_]),
+inlist(Drinks,[kuvshin,_]),
+inlist(Drinks,[jar,_]),
+inlist(Drinks,[_,leche]),
+inlist(Drinks,[_,lemonade]),
+inlist(Drinks,[_,kvas]),
+inlist(Drinks,[_,agua]),
+not(inlist(Drinks,[bottle,leche])),
+not(inlist(Drinks,[bottle,agua])),
+not(inlist(Drinks,[jar,lemonade])),
+not(inlist(Drinks,[jar,agua])),
+right([kuvshin,_],[_,lemonade],Drinks),
+right([_,lemonade],[_,kvas],Drinks),
+next([glass,_],[jar,_],Drinks),
+next([glass,_],[_,leche],Drinks),
+
+write(Drinks),!.
