@@ -176,5 +176,35 @@ task18:-Talents = [_, _, _, _],
     not(inlist(Talents, [pavlov, painter,_])),
     not(inlist(Talents, [saharov, writer,_])),
     not(inlist(Talents, [voronov, writer,_])),
-    write(Talents).
+    inlist(Talents, [voronov, Who1, _]),
+    inlist(Talents, [pavlov, Who2, _]),
+    inlist(Talents, [levitskiy, Who3, _]),
+    inlist(Talents, [saharov, Who4, _]),
+    write('voronov - '), write(Who1), nl, write('pavlov - '), write(Who2), nl, write('levitskiy - '), write(Who3), nl, write('saharov - '), write(Who4).
+
+
+%Задание 19 Три друга заняли первое, второе, третье места в соревнова-
+% ниях универсиады. Друзья разной национальности, зовут их по-разному, и
+% любят они разные виды спорта. Майкл предпочитает баскетбол и играет
+% лучше,чем американец. Израильтянин Саймон играет лучше теннисиста. Игрок в
+% крикет занял первое место. Кто является австралийцем? Каким спортом
+% увлекается Ричард?
+
+task19:- Sport=[_, _, _],
+    inlist(Sport, [michael, _, basketball, _]),
+    inlist(Sport, [simon, israel, _, _]),
+    inlist(Sport, [richard,_, _, _]),
+    inlist(Sport, [_, _, cricket, first]),
+    inlist(Sport, [_, australia, _l, _]),
+    inlist(Sport, [_, _, tennis, _]),
+    inlist(Sport, [_, america, _, _]),
+    in_list(Sport, [_, _, _, second]),
+    in_list(Sport, [_, _, _, third]),
+    not(inlist(Sport,[_, america, basketball,_])),
+    not(inlist(Sport, [simon, tennis,_,_])),
+    inlist(Sport, [Who1, australia, _, _]),
+    inlist(Sport, [richard,_,Who2,_]),
+    write('australia - '), write(Who1), nl, write('richard - '), write(Who2), nl, write(Sport).
+
+
 
