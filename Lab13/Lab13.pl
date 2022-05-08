@@ -63,4 +63,25 @@ sum_count_nprime([H|T], CurSum, CurCount, AverPrime, Sum, Count):-H>AverPrime, n
 
 f156:-read(Count), read_list(Count, List), sum_count_nprime(List, Sum, Count1), Count1\=0, Average is Sum/Count1, write(Average),!; write(0).
 
+%14 Беседует трое друзей: Белокуров, Рыжов, Чернов. Брюнет
+%сказал Белокурову: “Любопытно, что один из нас блондин, другой брюнет,
+% третий - рыжий, но ни у кого цвет волос не соответствует фамилии”.
+% Какой
+%цвет волос у каждого из друзей?
+
+inlist([],_):-fail.
+inlist([X|_],X).
+inlist([_|T],X):-inlist(T,X).
+
+task14:-Hair=[_, _, _],
+    inlist(Hair,[blond,_]),
+    inlist(Hair,[black,_]),
+    inlist(Hair,[red, _]),
+    inlist(Hair,[_, belokurov]),
+    inlist(Hair,[_, chernov]),
+    inlist(Hair,[_, ryzhov]),
+    not(in_list(Hair,[blond,belokurov])),
+    not(in_list(Hair,[black,chernov])),
+    not(in_list(Hair,[red,ryzhov])),
+    write(Hair).
 
