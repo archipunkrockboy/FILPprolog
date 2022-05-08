@@ -207,4 +207,40 @@ task19:- Sport=[_, _, _],
     write('australia - '), write(Who1), nl, write('richard - '), write(Who2), nl, write(Sport).
 
 
+%Задание 20
+%Пятеро студентов едут на велосипедах.
+%Их зовут Сергей, Борис, Леонид, Григорий и Виктор.
+%Велосипеды сделаны в пяти городах: Риге, Пензе, Львове, Харькове и Москве.
+%Каждый из студентов родился в одном из этих городов, но ни один
+%из студентов не едет на велосипеде, сделанном на его родине.
+%Сергей едет на велосипеде, сделанном в Риге.
+%Борис родом из Риги, у него велосипед из Пензы.
+%У Виктора велосипед из Москвы.
+%У Григория велосипед из Харькова.
+%Виктор родом из Львова.
+%Уроженец Пензы едет на велосипеде, сделанном на родине Леонида.
+%Кто из студентов родом из Москвы ?
+
+%[студент, откуда велик, родина]
+task20:- Students=[_, _, _, _, _],
+    inlist(Students, [sergey, riga, _]),
+    inlist(Students, [boris, penza, riga]),
+    inlist(Students, [victor, moscow, lviv]),
+    inlist(Students, [grigoriy, kharkiv,_]),
+    inlist(Students, [leonid,_,RodinaLeonida]),
+    inlist(Students, [_,lviv,_]),
+    inlist(Students, [_, _, kharkiv]),
+    inlist(Students, [_, RodinaLeonida, penza]),
+    inlist(Students, [_, _, moscow]),
+    not(inlist(Students, [_,riga, riga])),
+    not(inlist(Students, [_,penza, penza])),
+    not(inlist(Students, [_,lviv, lviv])),
+    not(inlist(Students, [_,kharkiv, kharkiv])),
+    not(inlist(Students, [_,moscow, moscow])),
+    inlist(Students,[Who1,_, moscow]),
+    write('from moscow - '),write(Who1),nl,
+    write(Students).
+
+
+
 
