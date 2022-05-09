@@ -13,17 +13,8 @@ write_str([H|T]):-put(H), write_str(T).
 
 f11:-read_str(S, N), write_str(S), write(', '), write_str(S), write(', '), write_str(S), nl,write('length - '), write(N).
 
+
 %1.2 Дана строка. Найти количество слов.
-% 4 аргумент(флаг): 1 - слово началось и ищем конец, 0 - пропускаем
-% пробелы.
-words_count(S, C):-words_count(S, 0, C, 0).
-words_count([],C,C,_):-!.
-words_count([32|T], CurC, C, 0):- words_count(T, CurC, C, 0).
-words_count([_|T], CurC, C, 0):- CurC1 is CurC+1, words_count(T, CurC1, C, 1).
-words_count([_|T], CurC, C, 1):- words_count(T, CurC, C, 0).
-
-
-%words_count([],C,C):-!.
 
 f12:-read_str(A,_), countwords(A, K),nl,write(K).
 
@@ -40,3 +31,22 @@ getword(A,Word,A2):-getword(A,[],Word,A2).
 getword([],Word,Word,[]).
 getword([32|T],Word,Word,T):-!.
 getword([H|T],W,Word,A2):-append(W,[H],W1),getword(T,W1,Word,A2).
+
+
+%1.3 Дана строка, определить самое частое слово
+inlist([],_):-fail.
+inlist([X|_],X).
+inlist([_|T],X):-inlist(T,X).
+
+
+%сколько раз слово встречается в строке
+frequency_str(S, Str, Count):-frequency_str(S, Str, 0, Count).
+frequency_str(_, [], Count, Count):-!.
+frequency_str(S, Str, CurCount, Count):-getword(Str, W, NewStr), (S = W, CurCount1 is CurCount+1, frequency_str(S, NewStr, CurCount1, Count),!;frequency_str(S, NewStr, CurCount, Count)).
+
+%поиск наиболее встречаемого слова в строке
+max_frequency_str(Str, Result):-max_frequency_str(Str, [], 0, Result).
+max_frequency_str([], Result, _, Result):-!.
+max_frequency_str(Str, CurMax, CurMaxCount, Result):- getword(Str, W, NewStr), frequency_str(W, Str, Count),(Count>CurMaxCount, max_frequency_str(NewStr, W, Count, Result);max_frequency_str(NewStr, CurMax, CurMaxCount, Result)).
+
+f:-read_str(S, _), max_frequency_str(S, Result), write_str(Result).
