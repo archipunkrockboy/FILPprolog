@@ -11,12 +11,12 @@ write_str([H|T]):-put(H), write_str(T).
 %1.1Дана строка. Вывести ее три раза через запятую и показать количе-
 %ство символов в ней.
 
-f11:-read_str(S, N), write_str(S), write(', '), write_str(S), write(', '), write_str(S), nl,write('length - '), write(N).
+f1_1:-read_str(S, N), write_str(S), write(', '), write_str(S), write(', '), write_str(S), nl,write('length - '), write(N).
 
 
 %1.2 Дана строка. Найти количество слов.
 
-f12:-read_str(A,_), countwords(A, K),nl,write(K).
+f1_2:-read_str(A,_), countwords(A, K),nl,write(K).
 
 countwords(A,C):-countwords(A,0,C).
 countwords([],K,K):-!.
@@ -49,4 +49,19 @@ max_frequency_str(Str, Result):-max_frequency_str(Str, [], 0, Result).
 max_frequency_str([], Result, _, Result):-!.
 max_frequency_str(Str, CurMax, CurMaxCount, Result):- getword(Str, W, NewStr), frequency_str(W, Str, Count),(Count>CurMaxCount, max_frequency_str(NewStr, W, Count, Result);max_frequency_str(NewStr, CurMax, CurMaxCount, Result)).
 
-f:-read_str(S, _), max_frequency_str(S, Result), write_str(Result).
+f1_3:-read_str(S, _), max_frequency_str(S, Result), write_str(Result).
+
+
+%1.4 Дана строка. Вывести первые три символа и последний три символа,
+%если длина строки больше 5 Иначе вывести первый символ столько
+%раз, какова длина строки.
+
+write1(S, N):-write1(S, 0, N).
+write1(_, N, N):-!.
+write1([H|T], I, N):- I1 is I+1, ((I<3, put(H),write1(T, I1, N)),!;(I+3>=N, put(H),write1(T, I1, N)),!;write1(T, I1, N)).
+
+write2(S, N):-write2(S, 0, N).
+write2(_, N, N):-!.
+write2([H|_], I, N):-put(H), I1 is I+1, write2([H|_], I1, N).
+
+f1_4:-read_str(S, N), (N>5, write1(S, N); write2(S, N)).
