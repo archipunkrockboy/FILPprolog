@@ -63,4 +63,24 @@ write1([H|T], I, N):- I1 is I+1, ((I<3, put(H),write1(T, I1, N)),!;(I+3>=N, put(
 write2(S, N):-write2(S, 0, N).
 write2(_, N, N):-!.
 write2([H|_], I, N):-put(H), I1 is I+1, write2([H|_], I1, N).
-f1_4:-read_str(S, N), N>5, (write1(S, N);write2(S, N)).
+
+f1_4:-read_str(S, N), (N>5, write1(S, N); write2(S, N)).
+
+
+%1.5 Дана строка. Показать номера символов, совпадающих с последним
+%символом строки.
+
+sym_by_num(Str, N, Result):-sym_by_num(Str, 0, N, Result).
+sym_by_num([Result|_], N, N, Result):-!.
+sym_by_num([_|T], I, N, Result):-I1 is I+1,sym_by_num(T, I1, N, Result).
+
+str_length(S, Result):-str_length(S, 0, Result).
+str_length([], Result, Result):-!.
+str_length([_|T], C, Result):-C1 is C+1, str_length(T, C1, Result).
+
+matchwithlast(S):- str_length(S, N),N1 is N-1, sym_by_num(S, N1, Last), matchwithlast(S, 0, Last).
+matchwithlast([],_,_):-!.
+matchwithlast([H|T], I, Last):-I1 is I+1, (H = Last, write(I), write(' '), matchwithlast(T,I1, Last);matchwithlast(T,I1, Last)).
+
+
+f1_5:-read_str(S, _), matchwithlast(S).
