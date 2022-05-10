@@ -120,9 +120,54 @@ f1520:- read(Count), read_list(Count, List), propuski(List, Result), write_list(
 
 %15.32Дан целочисленный массив. Найти количество его локальных мак-
 %симумов.
-count_local_max([H|T], Result):-count_local_max(T, H, 0, Result).
-count_local_max([], _, _, Result, Result):-!.
-count_local_max([H|T], A, Count, Result):-count_local_max(T, A, H, Count, Result).
-count_local_max([H|T], A, B, Count, Result):- (B>A, B>H, Count1 is Count+1, count_local_max(T, B, H, Count1, Result),!);count_local_max(T, B, H, Count, Result).
+count_local_max1([H|T], Result):-count_local_max(T, H, 0, Result).
+count_local_max1([], _, _, Result, Result):-!.
+count_local_max1([H|T], A, Count, Result):-count_local_max(T, A, H, Count, Result).
+count_local_max1([H|T], A, B, Count, Result):- (B>A, B>H, Count1 is Count+1, count_local_max(T, B, H, Count1, Result),!);count_local_max(T, B, H, Count, Result).
+
+
+count_local_max(List, Result):-count_local_max(List, 0, Result).
+count_local_max([], Result, Result):-!.
+count_local_max([A|[B|[C|T]]], Count, Result):- B>A, B>C, Count1 is Count+1, count_local_max([B|[C|T]], Count1, Result),!; count_local_max([B|[C|T]], Count<Result).
+count_local_max([_|[_]], Result, Result):-!.
+count_local_max([_], Result, Result):-!.
 
 f1532:- read(Count), read_list(Count, List), count_local_max(List, Result), write(Result).
+
+closest_elem([H|T], Elem, Result):- MinDifference is abs(H-Elem), closest_elem(T, Elem, H, MinDifference, Result).
+closest_elem([], _, Result, _, Result):-!.
+closest_elem([H|T], Elem, CurElem, MinDifference ,Result):- Difference is abs(H-Elem),Difference<MinDifference, closest_elem(T, Elem, H, Difference, Result),!;closest_elem(T, Elem, CurElem, MinDifference, Result).
+
+%15.35 Дано вещественное число R и массив вещественных чисел. Найти
+%элемент массива, который наиболее близок к данному числу.
+f1535:- read(Count), read(Elem), read_list(Count, List), closest_elem(List, Elem, Result), write(Result).
+
+
+%13 Найдите сумму простых чисел, меньших 1000000 которые можно обрезать
+%слева направо и справа налево.
+
+
+
+is_prime(1):-!, fail.
+is_prime(X):-is_prime(X, 2).
+is_prime(X, X):-!.
+is_prime(X, CurDel):-Ost is X mod CurDel, Ost is 0, !, fail;CurDel1 is CurDel + 1, is_prime(X, CurDel1).
+
+
+
+is_prime_left_right(X):-is_prime_left_right(X, X, X).
+is_prime_left_right(_, 0, 0):-!.
+is_prime_left_right(X, XL, XR):- is_prime(XL), is_prime(XR), XR1 is XR div 10, del_first_digit(XL, XL1), is_prime_left_right(X, XL1, XR1);!, fail.
+
+
+del_first_digit(X, Result):-del_first_digit(X, X, 1,_, Result).
+del_first_digit(_, 0, _, Result, Result):-!.
+del_first_digit(X, CurX, MOD, _, Result):- CurX1 is CurX div 10, MOD1 is MOD*10, A is X mod MOD, del_first_digit(X, CurX1, MOD1, A, Result).
+
+
+f13(Sum, List):-f13(23, 0, [],Sum, List).
+f13(1000000, Sum,List, Sum, List):-!.
+f13(1000, CurSum, CurList, Sum, List):-f13(2000, CurSum, CurList, Sum, List).
+f13(10000, CurSum, CurList, Sum, List):-f13(20000, CurSum, CurList, Sum, List).
+f13(100000, CurSum, CurList, Sum, List):-f13(200000, CurSum, CurList, Sum, List).
+f13(Cur, CurSum,List1, Sum, List):- write(Cur),nl,Cur1 is Cur+1, (is_prime_left_right(Cur), write("------"),write(Cur),nl,write("------"),nl, CurSum1 is CurSum+Cur, f13(Cur1,CurSum1,[Cur|List1], Sum, List); f13(Cur1, CurSum,List1, Sum,List)).
