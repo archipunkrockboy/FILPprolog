@@ -84,3 +84,5 @@ matchwithlast([H|T], I, Last):-I1 is I+1, (H = Last, write(I), write(' '), match
 
 
 f1_5:-read_str(S, _), matchwithlast(S).
+
+

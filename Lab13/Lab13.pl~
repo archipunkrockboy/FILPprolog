@@ -220,14 +220,8 @@ task19:- Sport=[_, _, _],
 %Виктор родом из Львова.
 %Уроженец Пензы едет на велосипеде, сделанном на родине Леонида.
 %Кто из студентов родом из Москвы ?
+
 %[студент, откуда велик, родина]
-
-% для проверки условия: Уроженец Пензы едет на велосипеде, сделанном на
-% родине Леонида, то есть второй элемент списка равен третьему.
-f([_|[A|_]],[_|[_|[A|_]]]):-!.
-f(_,_):-fail,!.
-
-
 task20:- Students=[_, _, _, _, _],
     inlist(Students, [sergey, riga, _]),
     inlist(Students, [boris, penza, riga]),
@@ -243,7 +237,8 @@ task20:- Students=[_, _, _, _, _],
     not(inlist(Students, [_,lviv, lviv])),
     not(inlist(Students, [_,kharkiv, kharkiv])),
     not(inlist(Students, [_,moscow, moscow])),
-
+    inlist(Students,[Who1,_, moscow]),
+    write('from moscow - '),write(Who1),nl,
     write(Students).
 
 

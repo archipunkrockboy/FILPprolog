@@ -36,12 +36,18 @@ count_on_ab([H|T], A, B, Count, Result):-H>=A, H=<B, Count1 is Count+1, count_on
 
 f138:- read(Count), read(A), read(B), read_list(Count, List), count_on_ab(List, A, B, Result), write(Result).
 
-%��� ������ �����. ���������� ���������, ���������� �� � ��� ��-
-%��� � ������������ �����.
+%1.44 Дан массив чисел. Необходимо проверить, чередуются ли в нем це-
+%лые и вещественные числа.
 
-a:-A is 100.0 / 10.0, write(A).
+isInt(A):-IntA is round(A), IntA = A.
 
 
+intfloat([H|T]):-isInt(H), intfloat(T, 1); intfloat(T, 0).
+intfloat([],_):-!.
+intfloat([H|T], 1):- not(isInt(H)),intfloat(T, 0),!;fail.
+intfloat([H|T], 0):- isInt(H), intfloat(T, 1),!;fail.
+
+f144:- read(Count), read_list(Count, List), intfloat(List).
 %1.56. Для введенного списка посчитать среднее арифметическое непростых
 %элементов, которые больше, чем среднее арифметическое простых.
 

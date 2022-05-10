@@ -79,7 +79,7 @@ str_length([], Result, Result):-!.
 str_length([_|T], C, Result):-C1 is C+1, str_length(T, C1, Result).
 
 matchwithlast(S):- str_length(S, N),N1 is N-1, sym_by_num(S, N1, Last), matchwithlast(S, 0, Last).
-matchwithlast([],_,_):-!.
+matchwithlast([_],_,_):-!.
 matchwithlast([H|T], I, Last):-I1 is I+1, (H = Last, write(I), write(' '), matchwithlast(T,I1, Last);matchwithlast(T,I1, Last)).
 
 
