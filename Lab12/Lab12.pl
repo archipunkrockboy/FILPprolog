@@ -120,11 +120,6 @@ f1520:- read(Count), read_list(Count, List), propuski(List, Result), write_list(
 
 %15.32Дан целочисленный массив. Найти количество его локальных мак-
 %симумов.
-count_local_max1([H|T], Result):-count_local_max(T, H, 0, Result).
-count_local_max1([], _, _, Result, Result):-!.
-count_local_max1([H|T], A, Count, Result):-count_local_max(T, A, H, Count, Result).
-count_local_max1([H|T], A, B, Count, Result):- (B>A, B>H, Count1 is Count+1, count_local_max(T, B, H, Count1, Result),!);count_local_max(T, B, H, Count, Result).
-
 
 count_local_max(List, Result):-count_local_max(List, 0, Result).
 count_local_max([], Result, Result):-!.
@@ -165,9 +160,16 @@ del_first_digit(_, 0, _, Result, Result):-!.
 del_first_digit(X, CurX, MOD, _, Result):- CurX1 is CurX div 10, MOD1 is MOD*10, A is X mod MOD, del_first_digit(X, CurX1, MOD1, A, Result).
 
 
-f13(Sum, List):-f13(23, 0, [],Sum, List).
-f13(1000000, Sum,List, Sum, List):-!.
-f13(1000, CurSum, CurList, Sum, List):-f13(2000, CurSum, CurList, Sum, List).
-f13(10000, CurSum, CurList, Sum, List):-f13(20000, CurSum, CurList, Sum, List).
-f13(100000, CurSum, CurList, Sum, List):-f13(200000, CurSum, CurList, Sum, List).
-f13(Cur, CurSum,List1, Sum, List):- write(Cur),nl,Cur1 is Cur+1, (is_prime_left_right(Cur), write("------"),write(Cur),nl,write("------"),nl, CurSum1 is CurSum+Cur, f13(Cur1,CurSum1,[Cur|List1], Sum, List); f13(Cur1, CurSum,List1, Sum,List)).
+f13(Sum, List):-f13(10, 0, [], Sum, List).
+f13(1000000, Sum, List, Sum, List):-!.
+f13(Cur > 100000, CurSum, CurList, Sum, List):-write(Cur), nl,
+    firstdigit14689_1(Cur), Cur1 is Cur+10000, f13(Cur1, CurSum, CurList, Sum, List);
+    haschet2(Cur), Cur2 is Cur + 1, f13(Cur2, CurSum, CurList, Sum, List);
+    is_prime_left_right(Cur), Cur3 is Cur+1,CurSum1 is CurSum + Cur, f13(Cur3, CurSum1, [Cur|CurList], Sum, List);
+    Cur4 is Cur+!, f13(Cur4, CurSum, CurList, Sum, List).
+f13(Cur, CurSum, CurList, Sum, List):-write(Cur), nl,
+    firstdigit14689_2(Cur), Cur1 is Cur+100000, f13(Cur1, CurSum, CurList, Sum, List);
+    haschet2(Cur), Cur2 is Cur + 1, f13(Cur2, CurSum, CurList, Sum, List);
+    is_prime_left_right(Cur), Cur3 is Cur+1,CurSum1 is CurSum + Cur, f13(Cur3, CurSum1, [Cur|CurList], Sum, List);
+    Cur4 is Cur+!, f13(Cur4, CurSum, CurList, Sum, List).
+
