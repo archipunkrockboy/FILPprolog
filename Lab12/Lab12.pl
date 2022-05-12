@@ -159,17 +159,57 @@ del_first_digit(X, Result):-del_first_digit(X, X, 1,_, Result).
 del_first_digit(_, 0, _, Result, Result):-!.
 del_first_digit(X, CurX, MOD, _, Result):- CurX1 is CurX div 10, MOD1 is MOD*10, A is X mod MOD, del_first_digit(X, CurX1, MOD1, A, Result).
 
+firstdigit(X, Result):-firstdigit(X, 0, Result).
+firstdigit(0, Result, Result):-!.
+firstdigit(X, _, Result):- Cur1 is X mod 10, X1 is X div 10, firstdigit(X1 ,Cur1, Result).
 
-f13(Sum, List):-f13(10, 0, [], Sum, List).
-f13(1000000, Sum, List, Sum, List):-!.
-f13(Cur > 100000, CurSum, CurList, Sum, List):-write(Cur), nl,
-    firstdigit14689_1(Cur), Cur1 is Cur+10000, f13(Cur1, CurSum, CurList, Sum, List);
-    haschet2(Cur), Cur2 is Cur + 1, f13(Cur2, CurSum, CurList, Sum, List);
-    is_prime_left_right(Cur), Cur3 is Cur+1,CurSum1 is CurSum + Cur, f13(Cur3, CurSum1, [Cur|CurList], Sum, List);
-    Cur4 is Cur+!, f13(Cur4, CurSum, CurList, Sum, List).
-f13(Cur, CurSum, CurList, Sum, List):-write(Cur), nl,
-    firstdigit14689_2(Cur), Cur1 is Cur+100000, f13(Cur1, CurSum, CurList, Sum, List);
-    haschet2(Cur), Cur2 is Cur + 1, f13(Cur2, CurSum, CurList, Sum, List);
-    is_prime_left_right(Cur), Cur3 is Cur+1,CurSum1 is CurSum + Cur, f13(Cur3, CurSum1, [Cur|CurList], Sum, List);
-    Cur4 is Cur+!, f13(Cur4, CurSum, CurList, Sum, List).
+haschet2(0):-!,fail.
+haschet2(X):-D is X mod 10, (D is 1,!;D is 2,!; D is 3,!; D is 5,!; D is 7,!;D is 9,!), X1 is X div 10,haschet2(X1),!.
+haschet2(_):-!.
+
+hasnprime(0):-!, fail.
+hasnprime(X):-D is X mod 10, not(is_prime(D)),!,not(fail); X1 is X div 10, hasnprime(X1).
+
+countdigit(X, Result):-countdigit(X, 0, Result).
+countdigit(0, Result, Result):-!.
+countdigit(X, Cur, Result):- X1 is X div 10, Cur1 is Cur+1, countdigit(X1, Cur1, Result).
+
+poww(X, N, Result):-poww(X, 0, N, 1, Result).
+poww(_, N, N, Result, Result):-!.
+poww(X, I, N, Cur, Result):- Cur1 is Cur*X, I1 is I+1, poww(X, I1, N, Cur1, Result).
+
+
+fff(Sum, List):-fff(10, 0, [], Sum, List).
+fff(1000000, Sum, List, Sum, List):-!.
+fff(Cur, Sum, List, S, L):-write(Cur), nl,
+    firstdigit(Cur, FD), (FD is 1; FD is 4; FD is 6; FD is 8; FD is 9), countdigit(Cur, CD), CD1 is CD-1, poww(10, CD1, A), Cur1 is Cur+A, fff(Cur1, Sum, List, S,L),!;
+    LD is Cur mod 10, (LD is 1;LD is 2; LD is 4; LD is 5; LD is 6; LD is 8), Cur1 is Cur+1, fff(Cur1, Sum, List, S, L),!;
+    haschet2(Cur), correct(Cur, Correct),Cur1 is Cur+Correct, fff(Cur1, Sum, List, S, L),!;
+    is_prime_left_right(Cur), Cur1 is Cur+1, Sum1 is Sum+Cur, fff(Cur1, Sum1, [Cur|List], S, L),!;
+    Cur1 is Cur+1, fff(Cur1, Sum, List, S, L).
+
+
+
+
+
+
+
+
+
+
+
+
+%сколько элементов пропустить
+correct(X, Result):-correct(X, 0, 1,Result).
+correct(0,_, Result, Result):-!.
+correct(X, Cur, Skip, Result):- Cur1 is Cur+1, X1 is X div 10,( D is X mod 10, (D is 0;D is 4; D is 6; D is 8), poww(10, Cur, Skip1), correct(X1, Cur1, Skip1, Result),!;correct(X1, Cur1, Skip, Result)).
+
+
+f13(Sum, List):-f13(23, 0, [],Sum, List).
+f13(10000, Sum,List, Sum, List):-!.
+f13(1000, CurSum, CurList, Sum, List):-f13(2000, CurSum, CurList, Sum, List).
+f13(10000, CurSum, CurList, Sum, List):-f13(20000, CurSum, CurList, Sum, List).
+f13(100000, CurSum, CurList, Sum, List):-f13(200000, CurSum, CurList, Sum, List).
+f13(Cur, CurSum,List1, Sum, List):- write(Cur),nl,Cur1 is Cur+1, (is_prime_left_right(Cur), write("------"),write(Cur),nl,write("------"),nl, CurSum1 is CurSum+Cur, f13(Cur1,CurSum1,[Cur|List1], Sum, List); f13(Cur1, CurSum,List1, Sum,List)).
+
 

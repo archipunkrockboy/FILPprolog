@@ -1,0 +1,6 @@
+f13(Sum, List):-f13(23, 0, [],Sum, List).
+f13(1000000, Sum,List, Sum, List):-!.
+f13(1000, CurSum, CurList, Sum, List):-f13(2000, CurSum, CurList, Sum, List).
+f13(10000, CurSum, CurList, Sum, List):-f13(20000, CurSum, CurList, Sum, List).
+f13(100000, CurSum, CurList, Sum, List):-f13(200000, CurSum, CurList, Sum, List).
+f13(Cur, CurSum,List1, Sum, List):- write(Cur),nl,Cur1 is Cur+1, (is_prime_left_right(Cur), write("------"),write(Cur),nl,write("------"),nl, CurSum1 is CurSum+Cur, f13(Cur1,CurSum1,[Cur|List1], Sum, List); f13(Cur1, CurSum,List1, Sum,List)).
