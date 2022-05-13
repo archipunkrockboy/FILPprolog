@@ -47,7 +47,7 @@ frequency_str(S, Str, CurCount, Count):-getword(Str, W, NewStr), (S = W, CurCoun
 %поиск наиболее встречаемого слова в строке
 max_frequency_str(Str, Result):-max_frequency_str(Str, [], 0, Result).
 max_frequency_str([], Result, _, Result):-!.
-max_frequency_str(Str, CurMax, CurMaxCount, Result):- getword(Str, W, NewStr), frequency_str(W, Str, Count),(Count>CurMaxCount, max_frequency_str(NewStr, W, Count, Result);max_frequency_str(NewStr, CurMax, CurMaxCount, Result)).
+max_frequency_str(Str, CurMax, CurMaxCount, Result):- getword(Str, W, NewStr), frequency_str(W, Str, Count),(Count>CurMaxCount, max_frequency_str(NewStr, W, Count, Result),!;max_frequency_str(NewStr, CurMax, CurMaxCount, Result)).
 
 pr1_3:-read_str(S, _), max_frequency_str(S, Result), write_str(Result).
 
@@ -132,7 +132,7 @@ count_str_hasn_sym([H|T], S, CurCount, Result):-count_symbols(H, S, CS), CS is 0
 
 pr2_2:-see('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14InputFiles/2.2.txt'), read_list_str(List, _), seen, tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/2.2.txt'), count_str_hasn_sym(List, 32, Result), write(Result), told.
 
-%Дан файл, найти и вывести на экран только те строки, в которых букв
+%2.3Дан файл, найти и вывести на экран только те строки, в которых букв
 %А больше, чем в среднем на строку.
 
 %количество заданного символа в листе строк
@@ -144,3 +144,19 @@ write3_3([], _):-!.
 write3_3([H|T], AverageA):- count_symbols(H, 65, CountA), CountA > AverageA, write_str(H), nl, write3_3(T, AverageA),!;write3_3(T, AverageA).
 
 pr2_3:-see('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14InputFiles/2.3.txt'), read_list_str(List, CountStr), seen, tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/2.3.txt'), count_symbols_list_str(List, 65, CountA), list_length(CountStr, Length),AverageA is CountA/Length, write3_3(List, AverageA), told.
+
+%2.4 Дан файл, вывести самое частое слово.
+
+%Соединить два листа
+join([], List, List).
+join([H1|T1], List2, [H1|T2]) :- join(T1, List2, T2).
+
+make_str(List, Result):-make_str(List, [], Result).
+make_str([], Result, Result):-!.
+make_str([H], [], [H]):-!.
+make_str([H|T], [], Result):- join(H, [], Str1), make_str(T, Str1, Result),!.
+make_str([H|T], CurStr, Result):-join(CurStr, [32], Str1), join(Str1, H, Str2), make_str(T, Str2, Result).
+
+
+
+pr2_4:-see('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14InputFiles/2.4.txt'), read_list_str(List, _), seen, tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/2.4.txt'), make_str(List, Str), max_frequency_str(Str, Result), write_str(Result), told.
