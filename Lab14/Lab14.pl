@@ -160,3 +160,16 @@ make_str([H|T], CurStr, Result):-join(CurStr, [32], Str1), join(Str1, H, Str2), 
 
 
 pr2_4:-see('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14InputFiles/2.4.txt'), read_list_str(List, _), seen, tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/2.4.txt'), make_str(List, Str), max_frequency_str(Str, Result), write_str(Result), told.
+
+
+%2.5Дан файл, вывести в отдельный файл строки, состоящие из слов, не
+%повторяющихся в исходном файле
+
+%выполняется ли условие: слова строки не повторяются в файле
+check2_5([], _):-!.
+check2_5(SubStr, Str):- getword(SubStr, W, SubStr1), frequency_str(W, Str, Count), (Count is 1, check2_5(SubStr1, Str),!;fail).
+
+write2_5([], _):-!.
+write2_5([H|T], Str):-check2_5(H, Str), write_str(H), nl, write2_5(T, Str),!;write2_5(T, Str).
+
+pr2_5:-see('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14InputFiles/2.5.txt'), read_list_str(List, _), seen, tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/2.5.txt'),make_str(List, Str), write2_5(List, Str), told.
