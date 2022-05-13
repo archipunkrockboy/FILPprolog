@@ -153,7 +153,7 @@ join([H1|T1], List2, [H1|T2]) :- join(T1, List2, T2).
 
 make_str(List, Result):-make_str(List, [], Result).
 make_str([], Result, Result):-!.
-make_str([H], [], [H]):-!.
+make_str([H], [], H):-!.
 make_str([H|T], [], Result):- join(H, [], Str1), make_str(T, Str1, Result),!.
 make_str([H|T], CurStr, Result):-join(CurStr, [32], Str1), join(Str1, H, Str2), make_str(T, Str2, Result).
 
@@ -173,3 +173,19 @@ write2_5([], _):-!.
 write2_5([H|T], Str):-check2_5(H, Str), write_str(H), nl, write2_5(T, Str),!;write2_5(T, Str).
 
 pr2_5:-see('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14InputFiles/2.5.txt'), read_list_str(List, _), seen, tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/2.5.txt'),make_str(List, Str), write2_5(List, Str), told.
+
+%3Дана строка, состоящая из символов латиницы. Необходимо проверить,
+%упорядочены ли строчные символы этой строки по возрастанию.
+
+islow(S):-(S<97;S>122),!,fail.
+islow(_).
+
+check3([_]):-!.
+check3([S1, S2|T]):-
+       (not(islow(S1)), not(islow(S2)), check3(T)),!;
+       ((islow(S1)), not(islow(S2)), check3([S1|T])),!;
+       (not(islow(S1)), (islow(S2)), check3([S2|T])),!;
+       S2>S1, check3([S2|T]),!;
+       fail.
+
+pr3:-see('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14InputFiles/3.txt'), read_list_str(List, _), seen, tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/3.txt'),make_str(List, Str), (check3(Str), write('Строчные символы упорядочены'),!;write('Строчные НЕ символы упорядочены')), told.
