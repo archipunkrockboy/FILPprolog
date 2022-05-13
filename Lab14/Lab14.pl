@@ -174,6 +174,7 @@ write2_5([H|T], Str):-check2_5(H, Str), write_str(H), nl, write2_5(T, Str),!;wri
 
 pr2_5:-see('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14InputFiles/2.5.txt'), read_list_str(List, _), seen, tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/2.5.txt'),make_str(List, Str), write2_5(List, Str), told.
 
+
 %3Дана строка, состоящая из символов латиницы. Необходимо проверить,
 %упорядочены ли строчные символы этой строки по возрастанию.
 
@@ -189,3 +190,7 @@ check3([S1, S2|T]):-
        fail.
 
 pr3:-see('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14InputFiles/3.txt'), read_list_str(List, _), seen, tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/3.txt'),make_str(List, Str), (check3(Str), write('Строчные символы упорядочены'),!;write('Строчные НЕ символы упорядочены')), told.
+
+%4Дана строка. Необходимо подсчитать количество букв "А" в этой
+%строке.
+pr4:-read_str(S, _), count_symbols(S, 65, Count), write('Count A - '), write(Count).
