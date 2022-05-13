@@ -11,12 +11,12 @@ write_str([H|T]):-put(H), write_str(T).
 %1.1Дана строка. Вывести ее три раза через запятую и показать количе-
 %ство символов в ней.
 
-f1_1:-read_str(S, N), write_str(S), write(', '), write_str(S), write(', '), write_str(S), nl,write('length - '), write(N).
+pr1_1:-read_str(S, N), write_str(S), write(', '), write_str(S), write(', '), write_str(S), nl,write('length - '), write(N).
 
 
 %1.2 Дана строка. Найти количество слов.
 
-f1_2:-read_str(A,_), countwords(A, K),nl,write(K).
+pr1_2:-read_str(A,_), countwords(A, K),nl,write(K).
 
 countwords(A,C):-countwords(A,0,C).
 countwords([],K,K):-!.
@@ -49,7 +49,7 @@ max_frequency_str(Str, Result):-max_frequency_str(Str, [], 0, Result).
 max_frequency_str([], Result, _, Result):-!.
 max_frequency_str(Str, CurMax, CurMaxCount, Result):- getword(Str, W, NewStr), frequency_str(W, Str, Count),(Count>CurMaxCount, max_frequency_str(NewStr, W, Count, Result);max_frequency_str(NewStr, CurMax, CurMaxCount, Result)).
 
-f1_3:-read_str(S, _), max_frequency_str(S, Result), write_str(Result).
+pr1_3:-read_str(S, _), max_frequency_str(S, Result), write_str(Result).
 
 
 %1.4 Дана строка. Вывести первые три символа и последний три символа,
@@ -64,7 +64,7 @@ write2(S, N):-write2(S, 0, N).
 write2(_, N, N):-!.
 write2([H|_], I, N):-put(H), I1 is I+1, write2([H|_], I1, N).
 
-f1_4:-read_str(S, N), (N>5, write1(S, N); write2(S, N)).
+pr1_4:-read_str(S, N), (N>5, write1(S, N); write2(S, N)).
 
 
 %1.5 Дана строка. Показать номера символов, совпадающих с последним
@@ -83,6 +83,39 @@ matchwithlast([_],_,_):-!.
 matchwithlast([H|T], I, Last):-I1 is I+1, (H = Last, write(I), write(' '), matchwithlast(T,I1, Last);matchwithlast(T,I1, Last)).
 
 
-f1_5:-read_str(S, _), matchwithlast(S).
+pr1_5:-read_str(S, _), matchwithlast(S).
 
+
+
+
+write_list_str([]):-!.
+write_list_str([H|T]):-write_str(H),nl,write_list_str(T).
+
+read_str_f(A,N,Flag):-get0(X),r_str_f(X,A,[],N,0,Flag).
+r_str_f(-1,A,A,N,N,0):-!.
+r_str_f(10,A,A,N,N,1):-!.
+r_str_f(X,A,B,N,K,Flag):-K1 is K+1,append(B,[X],B1),get0(X1),r_str_f(X1,A,B1,N,K1,Flag).
+
+
+read_list_str(List,List_len):-read_str_f(A,N,Flag),r_l_s(List,List_len,[A],[N],Flag).
+r_l_s(List,List_len,List,List_len,0):-!.
+r_l_s(List,List_len,Cur_list,Cur_list_len,_):-
+	read_str_f(A,N,Flag),append(Cur_list,[A],C_l),append(Cur_list_len,[N],C_l_l),
+	r_l_s(List,List_len,C_l,C_l_l,Flag).
+
+list_length(List, Result):-list_length(List, 0, Result).
+list_length([], Result, Result):-!.
+list_length([_|T], CurLength, Result):- CurLength1 is CurLength+1, list_length(T, CurLength1, Result).
+
+%2.1Дан файл. Прочитать из файла строки и вывести длину наибольшей
+%строки.
+
+%самая длинная строка в списке
+max_list_length(List_Str, Result):-max_list_length(List_Str, 0, Result).
+max_list_length([], Result, Result):-!.
+max_list_length([H|T], CurMax, Result):-list_length(H, CurLength), (CurLength>CurMax, max_list_length(T, CurLength, Result),!;max_list_length(T, CurMax, Result)).
+
+
+pr2_1:-	see('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14InputFiles/2.1.txt'),read_list_str(List,_),seen,
+		tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/2.1.txt'),max_list_length(List, Result), write(Result), told.
 
