@@ -130,7 +130,17 @@ count_str_hasn_sym(List, S, Result):-count_str_hasn_sym(List, S, 0, Result).
 count_str_hasn_sym([], _, Result, Result):-!.
 count_str_hasn_sym([H|T], S, CurCount, Result):-count_symbols(H, S, CS), CS is 0, Count is CurCount+1, count_str_hasn_sym(T, S, Count, Result),!;count_str_hasn_sym(T, S, CurCount, Result).
 
-pr2_2:-see('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14InputFiles/2.2.txt'), read_list_str(List, _), seen, tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/2.2.txt'), count_str_hasn_space(List, 32, Result), write(Result), told.
+pr2_2:-see('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14InputFiles/2.2.txt'), read_list_str(List, _), seen, tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/2.2.txt'), count_str_hasn_sym(List, 32, Result), write(Result), told.
 
-pr:-see('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14InputFiles/2.2.txt'), read_list_str(List, _), seen, tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/2.2.txt'), write(List), told.
+%Дан файл, найти и вывести на экран только те строки, в которых букв
+%А больше, чем в среднем на строку.
 
+%количество заданного символа в листе строк
+count_symbols_list_str(List, S, Result):-count_symbols_list_str(List, S, 0, Result).
+count_symbols_list_str([], _, Result, Result):-!.
+count_symbols_list_str([H|T], S, CurCount, Result):-count_symbols(H, S, Count), CurCount1 is CurCount+Count, count_symbols_list_str(T, S, CurCount1, Result).
+
+write3_3([], _):-!.
+write3_3([H|T], AverageA):- count_symbols(H, 65, CountA), CountA > AverageA, write_str(H), write3_3(T, AverageA),!;write3_3(T, AverageA).
+
+pr2_3:-see('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14InputFiles/2.3.txt'), read_list_str(List, CountStr), seen, tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/2.3.txt'), count_symbols_list_str(List, 65, CountA), list_length(CountStr, Length),AverageA is CountA/Length, write3_3(List, AverageA), told.
