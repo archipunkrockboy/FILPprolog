@@ -119,3 +119,18 @@ max_list_length([H|T], CurMax, Result):-list_length(H, CurLength), (CurLength>Cu
 pr2_1:-	see('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14InputFiles/2.1.txt'),read_list_str(List,_),seen,
 		tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/2.1.txt'),max_list_length(List, Result), write(Result), told.
 
+%2.2Дан файл. Определить, сколько в файле строк, не содержащих
+%пробелы.
+
+count_symbols(List, S, Result):-count_symbols(List, S, 0, Result).
+count_symbols([], _, Result, Result):-!.
+count_symbols([H|T], S, CurCount, Result):- H = S,Count1 is CurCount+1, count_symbols(T, S, Count1, Result),!;count_symbols(T, S, CurCount, Result).
+
+count_str_hasn_sym(List, S, Result):-count_str_hasn_sym(List, S, 0, Result).
+count_str_hasn_sym([], _, Result, Result):-!.
+count_str_hasn_sym([H|T], S, CurCount, Result):-count_symbols(H, S, CS), CS is 0, Count is CurCount+1, count_str_hasn_sym(T, S, Count, Result),!;count_str_hasn_sym(T, S, CurCount, Result).
+
+pr2_2:-see('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14InputFiles/2.2.txt'), read_list_str(List, _), seen, tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/2.2.txt'), count_str_hasn_sym(List, 32, Result), write(Result), told.
+
+pr:-see('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14InputFiles/2.2.txt'), read_list_str(List, _), seen, tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/2.2.txt'), write(List), told.
+
