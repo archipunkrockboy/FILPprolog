@@ -24,7 +24,7 @@ f(X, Del, Count):-f(X, Del, 0, Count).
 f(0, _, Count, Count):-!.
 f(X, Del, C, Count):-
     X1 is X div 10, Dig is X mod 10,
-    (nod(Dig, Del, NOD), NOD is 1, C1 is C+1, f(X1, Del, C1, Count);
+    (nod(Dig, Del, NOD), NOD is 1, C1 is C+1, f(X1, Del, C1, Count),!;
     f(X1, Del, C, Count)).
 
 
@@ -58,7 +58,7 @@ get_elem_index([H|_], Index, Index, H):-!.
 get_elem_index([_|T], Index, CurIndex, Result):- CurIndex1 is CurIndex+1, get_elem_index(T, Index, CurIndex1, Result).
 
 %Соединить два листа
-join([], List, List).
+join([], List, List):-!.
 join([H1|T1], List2, [H1|T2]) :- join(T1, List2, T2).
 
 shift_right(List, N, Result):-list_length(List, Count), shift_right(List, N, 0,Count, Result).
@@ -88,9 +88,9 @@ rev([], Result, Result):-!.
 rev([H|T],List1, Result):-rev(T, [H|List1], Result).
 
 %Срез массива от N до M
-cut(List, N, M, Result):-M1 is M+1,cut(List, N, M1, 0, Result).
+cut(List, N, M, Result):- M1 is M+1,cut(List, N, M1, 0, Result).
 cut(List, N, M, N, Result):-list_length(List, Length),M1 is M-N,cut(List, N, M1, M1, Length,Result),!.
-cut([_|T], N, M, CurIndex, Result):-CurIndex1 is CurIndex+1, cut(T, N, M, CurIndex1, Result).
+cut([_|T], N, M, CurIndex, Result):-CurIndex1 is CurIndex+1, cut(T, N, M, CurIndex1, Result),!.
 cut(Result, _, _, M, M, Result):-!.
 cut(List, N, M, DelIndex, Length, Result):-Length1 is Length-1, del_by_num(List, DelIndex, DelList), cut(DelList, N, M, DelIndex, Length1, Result),!.
 
@@ -152,7 +152,7 @@ is_prime(X, CurDel):-Ost is X mod CurDel, Ost is 0, !, fail;CurDel1 is CurDel + 
 
 is_prime_left_right(X):-is_prime_left_right(X, X, X).
 is_prime_left_right(_, 0, 0):-!.
-is_prime_left_right(X, XL, XR):- is_prime(XL), is_prime(XR), XR1 is XR div 10, del_first_digit(XL, XL1), is_prime_left_right(X, XL1, XR1);!, fail.
+is_prime_left_right(X, XL, XR):- is_prime(XL), is_prime(XR), XR1 is XR div 10, del_first_digit(XL, XL1), is_prime_left_right(X, XL1, XR1),!; fail.
 
 
 del_first_digit(X, Result):-del_first_digit(X, X, 1,_, Result).
@@ -187,17 +187,6 @@ fff(Cur, Sum, List, S, L):-write(Cur), nl,
     haschet2(Cur), correct(Cur, Correct),Cur1 is Cur+Correct, fff(Cur1, Sum, List, S, L),!;
     is_prime_left_right(Cur), Cur1 is Cur+1, Sum1 is Sum+Cur, fff(Cur1, Sum1, [Cur|List], S, L),!;
     Cur1 is Cur+1, fff(Cur1, Sum, List, S, L).
-
-
-
-
-
-
-
-
-
-
-
 
 %сколько элементов пропустить
 correct(X, Result):-correct(X, 0, 1,Result).
