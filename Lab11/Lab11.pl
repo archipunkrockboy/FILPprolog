@@ -51,14 +51,13 @@ parent(zhdana,zlatomir).
 %11.1 Является ли Х сыном Y.
 son(X,Y):- man(X), parent(Y, X).
 %11.2 Вывести сына Х
-son(X):- son(X, Y), write(Y),nl, fail.
+son(X):- son(Y, X), write(Y),nl, fail.
 
 
 %12.1 Является ли Х сестрой Y.
 sister(X, Y):- woman(X), parent(Z, X), parent(Z, Y).
 %12.2 Вывести всех сестёр Х.
 sisters(X):-woman(Y), woman(Z), parent(Z, X), parent(Z, Y), write(Y), nl, fail.
-
 %13.1 Является ли Х внуком Y.
 grand_son(X, Y):-parent(Y, Z), parent(Z, X).
 %13.2 Вывести всех внуков X
@@ -73,13 +72,13 @@ max_cifra_up(X, M):- X1 is X div 10, max_cifra_up(X1, M1), M2 is X mod 10, (M1>M
 
 %16 Максимальная цифра числа(рекурсия вниз)
 max_cifra_down(X, M):- max_cifra_down(X, 0, M).
-max_cifra_down(0, M ,M).
+max_cifra_down(0, M ,M):-!.
 max_cifra_down(X, Y, M):- Y1 is X mod 10, X1 is X div 10, Y1>Y, max_cifra_down(X1, Y1, M),!;
 X2 is X div 10, max_cifra_down(X2, Y, M).
 
 %17 Сумма цифр числа, делящихся на 3
 sum_cifr3_up(0, 0):-!.
-sum_cifr3_up(X, S):- X1 is X div 10, sum_cifr3_up(X1, S1), Dig is X mod 10, (0 is Dig mod 3, S is S1 + Dig; S is S1).
+sum_cifr3_up(X, S):- X1 is X div 10, sum_cifr3_up(X1, S1), Dig is X mod 10, (0 is Dig mod 3, S is S1 + Dig,!; S is S1).
 
 %18 Сумма цифр числа, делящихся на 3(рекурсия вниз)
 sum_cifr3_down(X, S):-sum_cifr3_down(X, 0, S).
