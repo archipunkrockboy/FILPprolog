@@ -194,3 +194,30 @@ pr3:-see('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14InputFiles/
 %4Дана строка. Необходимо подсчитать количество букв "А" в этой
 %строке.
 pr4:-read_str(S, _), count_symbols(S, 65, Count), write('Count A - '), write(Count).
+
+
+%5 Дана строка в которой записан путь к файлу. Необходимо найти имя
+%файла без расширения.
+
+del_by_num(List, N, Result):-del_by_num(List, N, 0, Result).
+del_by_num([_|T], N, N, T):-!.
+del_by_num([H|T], N, I, [H|NewT]):- I1 is I+1, del_by_num(T, N, I1, NewT).
+
+%поиск индекса по значению, причем последнего
+index_by_elem_back(List, Elem, Result):- index_by_elem_back(List,0, 0, Elem, Result).
+index_by_elem_back([],  _, Result, _, Result):-!.
+index_by_elem_back([Elem|T], CurIndex, _, Elem, Result):-CurIndex1 is CurIndex+1, index_by_elem_back(T, CurIndex1, CurIndex, Elem, Result),!.
+index_by_elem_back([_|T], CurIndex, I, Elem, Result):-CurIndex1 is CurIndex+1, index_by_elem_back(T, CurIndex1, I, Elem, Result).
+
+%срез от N до M
+cut(List, N, M, Result):-M1 is M+1,cut(List, N, M1, 0, Result).
+cut(List, N, M, N, Result):-list_length(List, Length),M1 is M-N,cut(List, N, M1, M1, Length,Result),!.
+cut([_|T], N, M, CurIndex, Result):-CurIndex1 is CurIndex+1, cut(T, N, M, CurIndex1, Result).
+cut(Result, _, _, M, M, Result):-!.
+cut(List, N, M, DelIndex, Length, Result):-Length1 is Length-1, del_by_num(List, DelIndex, DelList), cut(DelList, N, M, DelIndex, Length1, Result),!.
+
+
+%46-.
+%\-92
+
+pr5:-read_str(Str, _),index_by_elem_back(Str, 92, I1), I3 is I1+1,index_by_elem_back(Str, 46, I2), I4 is I2-1,cut(Str, I3, I4, Result), write_str(Result).
