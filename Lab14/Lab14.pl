@@ -330,3 +330,14 @@ pr8_write:-Word=[_, _, _, _, _],
 pr8:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/8.txt'), pr8_write;told.
 
 
+pr9_write:-Word=[_, _, _, _, _],
+	sochet([Position_1, Position_2],[0, 1, 2, 3, 4], 2),
+	in_list([a,b,c,d,e], El),
+	sym_by_num(Word, Position_1, El), sym_by_num(Word, Position_2, El),
+	in_list_exclude([0, 1, 2, 3, 4], Position_1, List1), in_list_exclude(List1, Position_2, [OtherPosition1, OtherPosition2, OtherPosition3]),
+	in_list_exclude([a, b, c, d, e, f], El, NewList),
+	razm(NewList, 3, [OtherSymbol1, OtherSymbol2, OtherSymbol3]),
+	sym_by_num(Word, OtherPosition1, OtherSymbol1), sym_by_num(Word, OtherPosition2, OtherSymbol2), sym_by_num(Word, OtherPosition3, OtherSymbol3),
+	write(Word), nl, fail.
+
+pr9:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/9.txt'), pr9_write;told.
