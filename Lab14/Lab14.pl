@@ -235,10 +235,11 @@ in_list_exclude([H|T],El,[H|Tail]):-in_list_exclude(T,El,Tail).
 
 
 %размещения с повторениями по К
-razm_p:-read_str(A, _), read(K), razm_p(A,K,[]).
-razm_p(_,0,Perm1):-write_str(Perm1), nl, !, fail.
-razm_p(A,N,Perm):-in_list(A,El),N1 is N-1, razm_p(A,N1,[El|Perm]).
-
+razm_p(_, 0, Result, Result) :- !.
+razm_p(List, K, CurList, Result) :- in_list(List, X), K1 is K - 1, razm_p(List, K1, [X|CurList], Result).
+razm_p(List, K, Result) :- razm_p(List, K, [], Result).
+razm_p(List, K) :- razm_p(List, K, Perm), write_str(Perm), nl, fail.
+razm_p:-read_str(Str,_), read(K), razm_p(Str, K).
 
 %перестановки
 permutations:-read_str(A,_), permutations(A,[]).
@@ -293,3 +294,22 @@ pr6_5:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFi
 
 %все сочетания с повторениями, запись в файл
 pr6_6:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/sochet_p.txt'), not(sochet_p), told.
+
+%Дано множество {a,b,c,d,e,f}. Построить все слова длины 5, в
+%которых ровно две буквы a. Вывод в файл.
+%
+get_by_idx(L,I,El):-get_by_idx(L,I,El,0).
+get_by_idx([H|_],K,H,K):-!.
+get_by_idx([_|Tail],I,El,Cou):- I =:= Cou,get_by_idx(Tail,Cou,El,Cou);Cou1 is Cou + 1, get_by_idx(Tail,I,El,Cou1).
+
+pr7_write:-Word=[_, _, _, _, _],
+	sochet([Position_A1, Position_A2],[0, 1, 2, 3, 4], 2),
+	sym_by_num(Word, Position_A1, a), sym_by_num(Word, Position_A2, a),
+	in_list_exclude([0, 1, 2, 3, 4], Position_A1, List1), in_list_exclude(List1, Position_A2, [OtherPosition1, OtherPosition2, OtherPosition3]),
+	razm_p([b, c, d, e, f], 3, [OtherSymbol1, OtherSymbol2, OtherSymbol3]),
+	sym_by_num(Word, OtherPosition1, OtherSymbol1), sym_by_num(Word, OtherPosition2, OtherSymbol2), sym_by_num(Word, OtherPosition3, OtherSymbol3),
+	write(Word), nl, fail.
+
+pr7:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/7.txt'), pr7_write;told.
+
+
