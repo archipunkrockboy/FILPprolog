@@ -247,9 +247,12 @@ permutations([], Perm):- write_str(Perm), nl, !,fail.
 permutations(A, Perm):- in_list_exclude(A,El,A1), permutations(A1,[El|Perm]).
 
 %размещения без повторений
+razm(_, 0, Result, Result) :- !.
+razm(List, K, CurPerm, Result) :- in_list_exclude(List, X, Tail), K1 is K - 1, razm(Tail, K1, [X|CurPerm], Result).
+razm(List, K, Result) :- razm(List, K, [], Result).
+razm(List, K) :- razm(List, K, Perm), write("\t"), write(Perm), nl, fail.
 razm:- read_str(A,_), read(K), razm(A,K,[]).
-razm(_,0,Perm1):- write_str(Perm1), nl, !,fail.
-razm(A,N,Perm):- in_list_exclude(A, El, A1),N1 is N-1, razm(A1, N1, [El|Perm]).
+
 
 read_list(A,N):-read_list(A,N,0,[]).
 read_list(A,N,N,A):-!.
@@ -311,5 +314,19 @@ pr7_write:-Word=[_, _, _, _, _],
 	write(Word), nl, fail.
 
 pr7:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/7.txt'), pr7_write;told.
+
+
+
+
+
+pr8_write:-Word=[_, _, _, _, _],
+	sochet([Position_A1, Position_A2],[0, 1, 2, 3, 4], 2),
+	sym_by_num(Word, Position_A1, a), sym_by_num(Word, Position_A2, a),
+	in_list_exclude([0, 1, 2, 3, 4], Position_A1, List1), in_list_exclude(List1, Position_A2, [OtherPosition1, OtherPosition2, OtherPosition3]),
+	razm([b, c, d, e, f], 3, [OtherSymbol1, OtherSymbol2, OtherSymbol3]),
+	sym_by_num(Word, OtherPosition1, OtherSymbol1), sym_by_num(Word, OtherPosition2, OtherSymbol2), sym_by_num(Word, OtherPosition3, OtherSymbol3),
+	write(Word), nl, fail.
+
+pr8:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/8.txt'), pr8_write;told.
 
 
