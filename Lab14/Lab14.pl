@@ -217,7 +217,79 @@ cut(Result, _, _, M, M, Result):-!.
 cut(List, N, M, DelIndex, Length, Result):-Length1 is Length-1, del_by_num(List, DelIndex, DelList), cut(DelList, N, M, DelIndex, Length1, Result),!.
 
 
-%46-.
-%\-92
-
+%46 - .
+%\ - 92
 pr5:-read_str(Str, _),index_by_elem_back(Str, 92, I1), I3 is I1+1,index_by_elem_back(Str, 46, I2), I4 is I2-1,cut(Str, I3, I4, Result), write_str(Result).
+
+
+
+
+
+%К О М Б И Н А Т О Р И К А
+
+in_list([El|_],El).
+in_list([_|T],El):-in_list(T,El).
+
+in_list_exclude([El|T],El,T).
+in_list_exclude([H|T],El,[H|Tail]):-in_list_exclude(T,El,Tail).
+
+
+%размещения с повторениями по К
+razm_p:-read_str(A, _), read(K), razm_p(A,K,[]).
+razm_p(_,0,Perm1):-write_str(Perm1), nl, !, fail.
+razm_p(A,N,Perm):-in_list(A,El),N1 is N-1, razm_p(A,N1,[El|Perm]).
+
+
+%перестановки
+permutations:-read_str(A,_), permutations(A,[]).
+permutations([], Perm):- write_str(Perm), nl, !,fail.
+permutations(A, Perm):- in_list_exclude(A,El,A1), permutations(A1,[El|Perm]).
+
+%размещения без повторений
+razm:- read_str(A,_), read(K), razm(A,K,[]).
+razm(_,0,Perm1):- write_str(Perm1), nl, !,fail.
+razm(A,N,Perm):- in_list_exclude(A, El, A1),N1 is N-1, razm(A1, N1, [El|Perm]).
+
+read_list(A,N):-read_list(A,N,0,[]).
+read_list(A,N,N,A):-!.
+read_list(A,N,K,B):-read(X),append(B,[X],B1),K1 is K+1,read_list(A,N,K1,B1).
+
+%подмножества
+sub_set:- read(N),read_list(A,N),sub_set(B,A),write(B),nl,fail.
+sub_set([],[]).
+sub_set([H|Sub_set],[H|Set]):-sub_set(Sub_set,Set).
+sub_set(Sub_set,[_|Set]):-sub_set(Sub_set,Set).
+
+
+
+%сочетания по k без повторений
+sochet([], _, 0) :- !.
+sochet([H|Sub_set], [H|SetTail], K) :- K1 is K-1, sochet(Sub_set, SetTail, K1).
+sochet(Sub_set, [_|SetTail], K) :- sochet(Sub_set, SetTail, K).
+sochet(Set, K) :- sochet(A, Set, K), write_str(A), nl, fail.
+sochet:- read_str(A, _), read(K), sochet(A, K).
+
+%сочетания по k с повторениями
+sochet_p([], _, 0) :- !.
+sochet_p([H|Sub_set], [H|SetTail], K):- K1 is K-1, sochet_p(Sub_set, [H|SetTail], K1).
+sochet_p(Sub_set, [_|SetTail], K) :- sochet_p(Sub_set, SetTail, K).
+sochet_p(Set, K) :- sochet_p(A, Set, K), write_str(A), nl, fail.
+sochet_p:-read_str(A, _), read(K), sochet_p(A, K).
+
+%все размещения с повторениями, запись в файл
+pr6_1:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/razm_p.txt'), not(razm_p), told.
+
+%все размещения с повторениями, запись в файл
+pr6_2:- tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/permutations.txt'), not(permutations), told.
+
+%все размещения с повторениями, запись в файл
+pr6_3:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/razm.txt'), not(razm), told.
+
+%все размещения с повторениями, запись в файл
+pr6_4:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/subset.txt'), not(sub_set), told.
+
+%все сочетания, запись в файл
+pr6_5:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/sochet.txt'), not(sochet), told.
+
+%все сочетания с повторениями, запись в файл
+pr6_6:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/sochet_p.txt'), not(sochet_p), told.
