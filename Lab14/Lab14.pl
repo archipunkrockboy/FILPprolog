@@ -341,3 +341,18 @@ pr9_write:-Word=[_, _, _, _, _],
 	write(Word), nl, fail.
 
 pr9:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/9.txt'), pr9_write;told.
+
+
+
+pr10_write:-Word=[_, _, _, _, _, _],
+	sochet([El1, El2], [a, b, c, d, e, f], 2),
+	in_list_exclude([a,b,c,d,e,f], El1, List1), in_list_exclude(List1, El2, OtherSymbols),
+	sochet([Pos1, Pos2], [0, 1, 2, 3, 4, 5], 2), in_list_exclude([0, 1, 2, 3, 4, 5], Pos1, List2), in_list_exclude(List2, Pos2, OtherPositions),
+	sochet([Pos3, Pos4], OtherPositions, 2), in_list_exclude(OtherPositions, Pos3, OtherPositions1), in_list_exclude(OtherPositions1, Pos4, [OtherPos1, OtherPos2]),
+	sym_by_num(Word, Pos1, El1), sym_by_num(Word, Pos2, El1), sym_by_num(Word, Pos3, El2), sym_by_num(Word, Pos4, El2),
+	razm(OtherSymbols, 2, [OtherSymbol1, OtherSymbol2]),
+	sym_by_num(Word, OtherPos1, OtherSymbol1), sym_by_num(Word, OtherPos2, OtherSymbol2),
+	write(Word), nl, fail.
+
+
+pr10:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/10.txt'), pr10_write;told.
