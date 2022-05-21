@@ -32,7 +32,7 @@ in_list([_|T], El):-in_list(T, El).
 %чество элементов, значение которых принадлежит этому отрезку.
 count_on_ab(List, A, B, Result):-count_on_ab(List, A, B, 0, Result).
 count_on_ab([], _, _, Result, Result):-!.
-count_on_ab([H|T], A, B, Count, Result):-H>=A, H=<B, Count1 is Count+1, count_on_ab(T, A, B, Count1, Result); count_on_ab(T, A, B, Count, Result).
+count_on_ab([H|T], A, B, Count, Result):-H>=A, H=<B, Count1 is Count+1, count_on_ab(T, A, B, Count1, Result),!; count_on_ab(T, A, B, Count, Result).
 
 f138:- read(Count), read(A), read(B), read_list(Count, List), count_on_ab(List, A, B, Result), write(Result).
 
@@ -207,6 +207,16 @@ task19:- Sport=[_, _, _],
     in_list(Sport, [_, _, _, second]),
     in_list(Sport, [_, _, _, third]),
     not(inlist(Sport,[_, america, basketball,_])),
+    not(inlist(Sport, [simon, tennis,_,_])),
+    inlist(Sport, [Who1, australia, _, _]),
+    inlist(Sport, [richard,_,Who2,_]),
+    write('australia - '), write(Who1), nl, write('richard - '), write(Who2), nl, write(Sport).
+
+
+%Задание 20
+%Пятеро студентов едут на велосипедах.
+%Их зовут Сергей, Борис, Леонид, Григорий и Виктор.
+
     not(inlist(Sport, [simon, tennis,_,_])),
     inlist(Sport, [Who1, australia, _, _]),
     inlist(Sport, [richard,_,Who2,_]),

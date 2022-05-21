@@ -64,7 +64,7 @@ write2(S, N):-write2(S, 0, N).
 write2(_, N, N):-!.
 write2([H|_], I, N):-put(H), I1 is I+1, write2([H|_], I1, N).
 
-pr1_4:-read_str(S, N), (N>5, write1(S, N); write2(S, N)).
+pr1_4:-read_str(S, N), (N>5, write1(S, N),!; write2(S, N)).
 
 
 %1.5 Дана строка. Показать номера символов, совпадающих с последним
@@ -79,7 +79,7 @@ str_length([], Result, Result):-!.
 str_length([_|T], C, Result):-C1 is C+1, str_length(T, C1, Result).
 
 matchwithlast(S):- str_length(S, N),N1 is N-1, sym_by_num(S, N1, Last), matchwithlast(S, 0, Last).
-matchwithlast([_],_,_):-!.
+matchwithlast([],_,_):-!.
 matchwithlast([H|T], I, Last):-I1 is I+1, (H = Last, write(I), write(' '), matchwithlast(T,I1, Last);matchwithlast(T,I1, Last)).
 
 
@@ -130,6 +130,7 @@ count_str_hasn_sym(List, S, Result):-count_str_hasn_sym(List, S, 0, Result).
 count_str_hasn_sym([], _, Result, Result):-!.
 count_str_hasn_sym([H|T], S, CurCount, Result):-count_symbols(H, S, CS), CS is 0, Count is CurCount+1, count_str_hasn_sym(T, S, Count, Result),!;count_str_hasn_sym(T, S, CurCount, Result).
 
+%32-пробел
 pr2_2:-see('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14InputFiles/2.2.txt'), read_list_str(List, _), seen, tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/2.2.txt'), count_str_hasn_sym(List, 32, Result), write(Result), told.
 
 %2.3Дан файл, найти и вывести на экран только те строки, в которых букв
@@ -139,6 +140,8 @@ pr2_2:-see('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14InputFile
 count_symbols_list_str(List, S, Result):-count_symbols_list_str(List, S, 0, Result).
 count_symbols_list_str([], _, Result, Result):-!.
 count_symbols_list_str([H|T], S, CurCount, Result):-count_symbols(H, S, Count), CurCount1 is CurCount+Count, count_symbols_list_str(T, S, CurCount1, Result).
+
+%65-A
 
 write3_3([], _):-!.
 write3_3([H|T], AverageA):- count_symbols(H, 65, CountA), CountA > AverageA, write_str(H), nl, write3_3(T, AverageA),!;write3_3(T, AverageA).
@@ -216,9 +219,8 @@ cut([_|T], N, M, CurIndex, Result):-CurIndex1 is CurIndex+1, cut(T, N, M, CurInd
 cut(Result, _, _, M, M, Result):-!.
 cut(List, N, M, DelIndex, Length, Result):-Length1 is Length-1, del_by_num(List, DelIndex, DelList), cut(DelList, N, M, DelIndex, Length1, Result),!.
 
-
-%46 - .
-%\ - 92
+% C:\Users\Артур\Documents\Prolog\FILPprolog\Lab14\Lab14InputFiles\file.txt
+% 46 - . \ - 92
 pr5:-read_str(Str, _),index_by_elem_back(Str, 92, I1), I3 is I1+1,index_by_elem_back(Str, 46, I2), I4 is I2-1,cut(Str, I3, I4, Result), write_str(Result).
 
 
@@ -239,19 +241,19 @@ razm_p(_, 0, Result, Result) :- !.
 razm_p(List, K, CurList, Result) :- in_list(List, X), K1 is K - 1, razm_p(List, K1, [X|CurList], Result).
 razm_p(List, K, Result) :- razm_p(List, K, [], Result).
 razm_p(List, K) :- razm_p(List, K, Perm), write_str(Perm), nl, fail.
-razm_p:-read_str(Str,_), read(K), razm_p(Str, K).
+razm_p:-read(N),read_list(Str,N), read(K), razm_p(Str, K).
 
 %перестановки
 permutations:-read_str(A,_), permutations(A,[]).
+permutations(Str):-permutations(Str, []).
 permutations([], Perm):- write_str(Perm), nl, !,fail.
 permutations(A, Perm):- in_list_exclude(A,El,A1), permutations(A1,[El|Perm]).
 
 %размещения без повторений
-razm(_, 0, Result, Result) :- !.
-razm(List, K, CurPerm, Result) :- in_list_exclude(List, X, Tail), K1 is K - 1, razm(Tail, K1, [X|CurPerm], Result).
-razm(List, K, Result) :- razm(List, K, [], Result).
-razm(List, K) :- razm(List, K, Perm), write("\t"), write(Perm), nl, fail.
-razm:- read_str(A,_), read(K), razm(A,K,[]).
+razm(_, 0, Result, Result):-!.
+razm(List, K, Cur, Result):-in_list_exclude(List, X, Tail),K1 is K-1, razm(Tail, K1, [X|Cur], Result).
+razm(List, K, Result):-razm(List, K, [], Result).
+razm(List, K):-razm(List, K, Perm), write_str(Perm), nl, fail.
 
 
 read_list(A,N):-read_list(A,N,0,[]).
@@ -263,7 +265,6 @@ sub_set:- read(N),read_list(A,N),sub_set(B,A),write(B),nl,fail.
 sub_set([],[]).
 sub_set([H|Sub_set],[H|Set]):-sub_set(Sub_set,Set).
 sub_set(Sub_set,[_|Set]):-sub_set(Sub_set,Set).
-
 
 
 %сочетания по k без повторений
@@ -281,13 +282,13 @@ sochet_p(Set, K) :- sochet_p(A, Set, K), write_str(A), nl, fail.
 sochet_p:-read_str(A, _), read(K), sochet_p(A, K).
 
 %все размещения с повторениями, запись в файл
-pr6_1:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/razm_p.txt'), not(razm_p), told.
+pr6_1:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/razm_p.txt'),read_str(Str, _), read(K), not(razm_p(Str, K)), told.
 
 %все размещения с повторениями, запись в файл
-pr6_2:- tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/permutations.txt'), not(permutations), told.
+pr6_2:- tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/permutations.txt'), read_str(Str,_), not(permutations(Str)), told.
 
 %все размещения с повторениями, запись в файл
-pr6_3:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/razm.txt'), not(razm), told.
+pr6_3:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/razm.txt'), read_str(Str, _), read(K), not(razm(Str, K)), told.
 
 %все размещения с повторениями, запись в файл
 pr6_4:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/subset.txt'), not(sub_set), told.
@@ -301,9 +302,6 @@ pr6_6:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFi
 %Дано множество {a,b,c,d,e,f}. Построить все слова длины 5, в
 %которых ровно две буквы a. Вывод в файл.
 %
-get_by_idx(L,I,El):-get_by_idx(L,I,El,0).
-get_by_idx([H|_],K,H,K):-!.
-get_by_idx([_|Tail],I,El,Cou):- I =:= Cou,get_by_idx(Tail,Cou,El,Cou);Cou1 is Cou + 1, get_by_idx(Tail,I,El,Cou1).
 
 pr7_write:-Word=[_, _, _, _, _],
 	sochet([Position_A1, Position_A2],[0, 1, 2, 3, 4], 2),
