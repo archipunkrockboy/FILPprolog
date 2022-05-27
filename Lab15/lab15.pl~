@@ -83,8 +83,8 @@ pr1_write:-Word=[_, _, _, _, _, _, _],
     in_list_exclude([0, 1, 2, 3, 4, 5, 6], Pos1, List2), in_list_exclude(List2, Pos2, OtherPositions), %удалили позиции, занятые El1
     sochet([Pos3, Pos4, Pos5], OtherPositions, 3), %позиции для El2
     in_list_exclude(OtherPositions, Pos3, List3), in_list_exclude(List3, Pos4, List4),in_list_exclude(List4, Pos5, [OtherPos1, OtherPos2]),%удалили п%озиции, занятые El2
-    sym_by_num(Word, Pos1, El1), sym_by_num(Word, Pos2, El1), %вставили El11
-    sym_by_num(Word, Pos3, El2), sym_by_num(Word, Pos4, El2),sym_by_num(Word, Pos5, El2), %вставили El2
+    syb_by_num(Word, Pos1, El1), syb_by_num(Word, Pos2, El1), %вставили El11
+    syb_by_num(Word, Pos3, El2), syb_by_num(Word, Pos4, El2),syb_by_num(Word, Pos5, El2), %вставили El2
     razm(OtherSymbols, 2, [OtherSymbol1, OtherSymbol2]),%выбрали символы, с помощью которых достроим слово
     sym_by_num(Word, OtherPos1, OtherSymbol1), sym_by_num(Word, OtherPos2, OtherSymbol2),%вставили выбранные символы на оставшиеся позиции
     write(Word), nl, fail.
