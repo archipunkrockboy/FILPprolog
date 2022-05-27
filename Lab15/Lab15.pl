@@ -75,7 +75,9 @@ pr10_write:-Word=[_, _, _, _, _, _],
 
 pr10:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab14/Lab14OutputFiles/10.txt'), pr10_write;told.
 
-
+%1.Дано множество {a,b,c,d,e,f}. Построить все слова длины 7, в
+%которых ровно 1 буква повторяются 2 раза, ровно одна буква повторяется
+%3 раза остальные буквы не повторяются. Вывод в файл.
 pr1_write:-Word=[_, _, _, _, _, _, _],
     sochet([El1, El2], [a, b, c, d, e ,f], 2), %El1-повторяется 2 разa, El2-3 раза
     in_list_exclude([a,b,c,d,e,f], El1, List1), in_list_exclude(List1, El2, OtherSymbols), %удалили El1 и El2 из списка символов
@@ -90,3 +92,27 @@ pr1_write:-Word=[_, _, _, _, _, _, _],
     write(Word), nl, fail.
 
 pr1:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab15/OutputFiles/1.txt'), pr1_write;told.
+
+
+%2. Дано множество {a,b,c,d,e,f}. Построить все слова длины 9, в
+%которых ровно 2 буквы повторяются 2 раза, ровно одна буква повторяется
+%три раза, остальные буквы не повторяются. Вывод в файл.
+
+
+pr2_write:-Word=[_, _, _, _, _, _, _, _, _],
+    sochet([El1, El2, El3], [a, b, c, d, e, f], 3), %El1, El2-2 раза, El3- 3 раза
+    in_list_exclude([a,b,c,d,e,f], El1, List1), in_list_exclude(List1, El2, List2), in_list_exclude(List2, El3, OtherSymbols), %удалили El1, El2, El3
+    sochet([Pos1, Pos2], [0, 1, 2, 3, 4, 5, 6, 7, 8], 2), %позиции для El1
+    in_list_exclude([0, 1, 2, 3, 4, 5, 6, 7, 8], Pos1, List3), in_list_exclude(List3, Pos2, List4),%удалили позиции El1
+    sochet([Pos3, Pos4], List4, 2), %позиции для El2
+    in_list_exclude(List4, Pos3, List5), in_list_exclude(List5, Pos4, List6),%удалили позиции El2
+    sochet([Pos5 ,Pos6, Pos7], List6, 3), %позиции для El3
+    in_list_exclude(List6, Pos5, List7), in_list_exclude(List7, Pos6, List8), in_list_exclude(List8, Pos7, [OtherPos1, OtherPos2]), %удалили позиции El3
+    sym_by_num(Word, Pos1, El1), sym_by_num(Word, Pos2, El1), %вставил El1
+    sym_by_num(Word, Pos3, El2), sym_by_num(Word, Pos4, El2), %вставил El2
+    sym_by_num(Word, Pos5, El3), sym_by_num(Word, Pos6, El3), sym_by_num(Word, Pos7, El3),%вставил El3
+    razm(OtherSymbols, 2, [OtherSymbol1, OtherSymbol2]),%выбрали символы, с помощью которых достроим слово
+    sym_by_num(Word, OtherPos1, OtherSymbol1), sym_by_num(Word, OtherPos2, OtherSymbol2),%вставили выбранные символы на оставшиеся позиции
+    write(Word), nl, fail.
+
+pr2:-tell('C:/Users/Артур/Documents/Prolog/FILPprolog/Lab15/OutputFiles/2.txt'), pr2_write;told.
